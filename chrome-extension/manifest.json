@@ -1,0 +1,30 @@
+{
+  "name": "Nawabari Net",
+  "version": "0.1",
+  "manifest_version": 2,
+  "description": "インクで塗る予定",
+  "permissions": [ "http://nawabari-net.com/" ],
+  "browser_action": {
+    "default_title": "Nawabari Net"
+  },
+  "web_accessible_resources": [
+      "images/*.png"
+  ],
+  "background": {
+    "scripts": [
+      "extension_click_listener.js"
+    ],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+      "matches": [ "https://github.com/Sesta" ],
+      "js": [
+        "lib/jquery.min.js",
+        "lib/d3.min.js",
+        "main.js"
+      ],
+      "run_at": "document_start"
+    }
+  ]
+}
