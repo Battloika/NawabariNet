@@ -2,7 +2,7 @@
   "name": "Nawabari Net",
   "version": "0.1",
   "manifest_version": 2,
-  "description": "インクで塗る予定",
+  "description": "好きなページを塗れます",
   "permissions": [ "http://nawabari-net.com/" ],
   "browser_action": {
     "default_title": "Nawabari Net"

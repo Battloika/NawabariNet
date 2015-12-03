@@ -10,6 +10,10 @@ $(function(){
     paintable = true;
   }, 100);
 
+  var paint_area_height = $( "body" ).height();
+  if( paint_area_height < $( window ).height() )
+    paint_area_height = $( window ).height();
+
   $( "body" ).append( $( "<div></div>", {
     "id": "effect-area"
   } ).css( {
@@ -17,11 +21,10 @@ $(function(){
     "top": "0",
     "left": "0",
     "width": "100%",
-    "height": "100%",
+    "height": paint_area_height + "px",
     "overflow": "hidden"
   } ).mousedown( function( event ){
     mousedowned = true;
-    console.log( event );
     paint( event.pageX, event.pageY, 3 );
   } ).mousemove( function( event ){
     if( mousedowned && paintable ){
@@ -34,11 +37,6 @@ $(function(){
 
   paint( -200, -200, 1, 0, true );
     // 一度描画すると軽くなるので
-
-  chrome.runtime.onMessage.addListener( function( request ) {
-    paint( 200, 100 );
-    paint( 400, 400, 5, 200 );
-  } );
 
   function paint( pos_x, pos_y, num, variance, fadeout ){
     if( !pos_x ) pos_x = 100;
@@ -73,5 +71,11 @@ $(function(){
         $img.fadeIn( 100 );
     }
   }
+
+  chrome.runtime.onMessage.addListener( function( request ) {
+    paint( 200, 100 );
+    paint( 400, 400, 5, 200 );
+  } );
+
 });
 
