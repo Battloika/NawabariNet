@@ -4,51 +4,49 @@ $(function(){
     blue_ink: chrome.extension.getURL( "images/blue_ink.png" )
   };
 
-  chrome.runtime.onMessage.addListener( function( request ) {
-    $( "body" ).append( $( "<div></div>", {
-      "id": "effect-area"
-    } ).css( {
-      "position": "absolute",
-      "top": "0",
-      "left": "0",
-      "width": "100%",
-      "height": "100%"
-    } ));
+  $( "body" ).append( $( "<div></div>", {
+    "id": "effect-area"
+  } ).css( {
+    "position": "absolute",
+    "top": "0",
+    "left": "0",
+    "width": "100%",
+    "height": "100%"
+  } ));
 
+  chrome.runtime.onMessage.addListener( function( request ) {
     paint( 200, 100 );
+    paint( 400, 400, 5, 200 );
   } );
 
-  function paint( pos_x, pos_y ){
+  function paint( pos_x, pos_y, num, variance ){
     if( !pos_x ) pos_x = 100;
     if( !pos_y ) pos_y = 100;
+    if( !num ) num = 10;
+    if( !variance ) variance = 100;
 
     var ink_width = 100;
 
-    var $div = $( "<div></div>", {
-      "class": "ink"
-    } ).css( {
-      "display": "none",
-      "position": "absolute",
-      "top": ( pos_y - ink_width / 2 ) + "px",
-      "left": ( pos_x - ink_width / 2 )  + "px",
-      "width": ink_width + "px"
-    } );
+    for( var i = 0 ; i < num ; i++ ){
+      var variance_radius = variance * Math.random();
+      var variance_radian = 2 * Math.PI * Math.random();
 
-    $div.append( $( "<img>", {
-      "src": image_urls[ "red_ink" ],
-      "width": ink_width + "px"
-    } ).css( {
-      "display": "block",
-      "position": "absolute",
-      "top": "0",
-      "left": "0"
-    } ) );
+      var $img = $( "<img>", {
+        "src": image_urls[ "red_ink" ],
+        "width": ink_width + "px"
+      } ).css( {
+        "display": "none",
+        "position": "absolute",
+        "top": ( pos_y - ink_width / 2 + variance_radius * Math.sin( variance_radian ) ) + "px",
+        "left": ( pos_x - ink_width / 2 + variance_radius * Math.cos( variance_radian ) )  + "px"
+      } );
 
-    $( "#effect-area" ).append( $div );
+      $( "#effect-area" ).append( $img );
 
-    $div.fadeIn( 1000 )
-        .delay( 800 )
-        .fadeOut( 2000 );
+      $img.fadeIn( 1000 )
+          .delay( 800 )
+          .fadeOut( 2000 );
+    }
   }
 });
 
