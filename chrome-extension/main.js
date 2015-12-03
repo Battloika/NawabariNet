@@ -17,13 +17,15 @@ $(function(){
     "top": "0",
     "left": "0",
     "width": "100%",
-    "height": "100%"
+    "height": "100%",
+    "overflow": "hidden"
   } ).mousedown( function( event ){
     mousedowned = true;
-    paint( event.clientX, event.clientY, 3 );
+    console.log( event );
+    paint( event.pageX, event.pageY, 3 );
   } ).mousemove( function( event ){
     if( mousedowned && paintable ){
-      paint( event.clientX, event.clientY, 3 );
+      paint( event.pageX, event.pageY, 5 );
       paintable = false;
     }
   } ).mouseup( function(){
@@ -31,6 +33,7 @@ $(function(){
   } ) );
 
   paint( -200, -200, 1, 0, true );
+    // 一度描画すると軽くなるので
 
   chrome.runtime.onMessage.addListener( function( request ) {
     paint( 200, 100 );
