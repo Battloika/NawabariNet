@@ -52,6 +52,7 @@ $(function(){
       var variance_radian = 2 * Math.PI * Math.random();
 
       var $img = $( "<img>", {
+        "class": "ink",
         "src": image_urls[ "red_ink" ],
         "width": ink_width + "px"
       } ).css( {
@@ -67,13 +68,18 @@ $(function(){
       if( fadeout )
         $img.fadeIn( 100 )
             .delay( 500 )
-            .fadeOut( 2000 );
+            .fadeOut( 2000 ).queue(function() {
+              this.remove();
+            } );
       else
         $img.fadeIn( 100 );
     }
   }
 
   chrome.runtime.onMessage.addListener( function( request ) {
+    $( "#effect-area .ink" ).fadeOut( 1000 ).queue( function(){
+      this.remove();
+    } );
     if( $( "#effect-area" ).css( "pointer-events" ) == "none" )
       $( "#effect-area" ).css( "pointer-events", "auto" );
     else
