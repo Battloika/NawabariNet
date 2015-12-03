@@ -5,9 +5,9 @@ $(function(){
   };
 
   var mousedowned = false;
-  var paintable = true
+  var in_interval = false;
   var drawInterval = window.setInterval(function() {
-    paintable = true;
+    in_interval = false;
   }, 100);
 
   var paint_area_height = $( "body" ).height();
@@ -22,14 +22,15 @@ $(function(){
     "left": "0",
     "width": "100%",
     "height": paint_area_height + "px",
-    "overflow": "hidden"
+    "overflow": "hidden",
+    "pointer-events": "none"
   } ).mousedown( function( event ){
     mousedowned = true;
     paint( event.pageX, event.pageY, 3 );
   } ).mousemove( function( event ){
-    if( mousedowned && paintable ){
+    if( mousedowned && !in_interval ){
       paint( event.pageX, event.pageY, 5 );
-      paintable = false;
+      in_interval = true;
     }
   } ).mouseup( function(){
     mousedowned = false;
@@ -73,8 +74,10 @@ $(function(){
   }
 
   chrome.runtime.onMessage.addListener( function( request ) {
-    paint( 200, 100 );
-    paint( 400, 400, 5, 200 );
+    if( $( "#effect-area" ).css( "pointer-events" ) == "none" )
+      $( "#effect-area" ).css( "pointer-events", "auto" );
+    else
+      $( "#effect-area" ).css( "pointer-events", "none" );
   } );
 
 });
