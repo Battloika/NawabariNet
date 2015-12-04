@@ -1,8 +1,8 @@
 namespace :unicorn do
   desc "Start unicorn"
   task(:start) {
-    config = Rails.root.join('config', 'unicorn', "#{fetch(:rails_env)}.rb")
-    sh "bundle exec unicorn_rails -c #{config} -E #{fetch(:rails_env)} -D"
+    config = Rails.root.join('config', 'unicorn', "#{Rails.env}.rb")
+    sh "bundle exec unicorn_rails -c #{config} -E #{Rails.env} -D"
   }
 
   desc "Stop unicorn"
