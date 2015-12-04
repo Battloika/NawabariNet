@@ -24,15 +24,15 @@ $(function(){
     "height": paint_area_height + "px",
     "overflow": "hidden",
     "pointer-events": "none"
-  } ).mousedown( function( event ){
+  } ).on( "mousedown", function( event ){
     mousedowned = true;
     paint( event.pageX, event.pageY, 3 );
-  } ).mousemove( function( event ){
+  } ).on( "mousemove", function( event ){
     if( mousedowned && !in_interval ){
       paint( event.pageX, event.pageY, 5 );
       in_interval = true;
     }
-  } ).mouseup( function(){
+  } ).on( "mouseup", function(){
     mousedowned = false;
   } ) );
 
@@ -77,14 +77,19 @@ $(function(){
   }
 
   chrome.runtime.onMessage.addListener( function( request ) {
-    $( "#effect-area .ink" ).fadeOut( 1000 ).queue( function(){
-      this.remove();
-    } );
-    if( $( "#effect-area" ).css( "pointer-events" ) == "none" )
-      $( "#effect-area" ).css( "pointer-events", "auto" );
-    else
-      $( "#effect-area" ).css( "pointer-events", "none" );
-  } );
+    if( request.type == "change_mode" ){
+      if( request.mode == "none" ){
+        $( "#effect-area .ink" )
+            .fadeOut( 1000 ).queue( function(){
+              this.remove();
+            } );
+        $( "#effect-area" ).css( "pointer-events", "none" );
+      }
 
+      if( request.mode == "paint" ){
+        $( "#effect-area" ).css( "pointer-events", "auto" );
+      }
+    }
+  } );
 });
 
