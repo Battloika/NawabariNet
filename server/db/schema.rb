@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151204122451) do
+ActiveRecord::Schema.define(version: 20151204123729) do
 
   create_table "domains", force: :cascade do |t|
     t.string "domain", limit: 255, null: false
@@ -28,5 +28,15 @@ ActiveRecord::Schema.define(version: 20151204122451) do
 
   add_index "pages", ["domain_id"], name: "index_pages_on_domain_id", using: :btree
 
+  create_table "paints", force: :cascade do |t|
+    t.float    "point",      limit: 24, null: false
+    t.integer  "page_id",    limit: 4,  null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "paints", ["page_id"], name: "index_paints_on_page_id", using: :btree
+
   add_foreign_key "pages", "domains"
+  add_foreign_key "paints", "pages"
 end
