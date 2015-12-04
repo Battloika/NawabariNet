@@ -21,9 +21,9 @@ server ENV.fetch('SERVER'), user: ENV.fetch('SSH_USER'), roles: %w{app db web}
 # role :app, %w{deploy@example.com}, my_property: :my_value
 # role :web, %w{user1@primary.com user2@additional.com}, other_property: :other_value
 # role :db,  %w{deploy@example.com}
-role :app, %w{"#{ENV.fetch('SSH_USER')}@#{ENV.fetch('SERVER')}"}
-role :web, %w{"#{ENV.fetch('SSH_USER')}@#{ENV.fetch('SERVER')}"}
-role :db,  %w{"#{ENV.fetch('SSH_USER')}@#{ENV.fetch('SERVER')}"}
+role :app, ["#{ENV.fetch('SSH_USER')}@#{ENV.fetch('SERVER')}"]
+role :web, ["#{ENV.fetch('SSH_USER')}@#{ENV.fetch('SERVER')}"]
+role :db,  ["#{ENV.fetch('SSH_USER')}@#{ENV.fetch('SERVER')}"]
 
 
 
@@ -51,7 +51,7 @@ role :db,  %w{"#{ENV.fetch('SSH_USER')}@#{ENV.fetch('SERVER')}"}
 #    auth_methods: %w(password)
 #  }
 set :ssh_options, {
-  keys: %w(ENV.fetch('SSH_KEY_NAME')),
+  keys: [ENV.fetch('SSH_KEY_NAME')],
   forward_agent: false,
   auth_methods: %w(publickey),
   port: ENV.fetch('SSH_PORT')
