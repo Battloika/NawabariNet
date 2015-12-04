@@ -26,5 +26,5 @@ after_fork do |server, worker|
     ActiveRecord::Base.establish_connection
 end
 
-stderr_path File.expand_path("#{ENV.fetch('DEPLOY_TO')}/shared/log/error_unicorn.log", ENV.fetch('RAILS_ROOT'))
-stdout_path File.expand_path("#{ENV.fetch('DEPLOY_TO')}/shared/log/unicorn.log", ENV.fetch('RAILS_ROOT'))
+stderr_path File.expand_path("#{ENV.fetch('DEPLOY_TO')}/shared/log/error_unicorn.log")
+stdout_path File.expand_path("#{ENV.fetch('DEPLOY_TO')}/shared/log/unicorn.log")
