@@ -13,6 +13,10 @@ set :deploy_to, ENV.fetch('DEPLOY_TO')
 # Default value for :scm is :git
 set :scm, :git
 
+# deploy subdir
+set :git_strategy, Capistrano::Git::SubDirectoryStrategy
+set :project_root, 'server'
+
 # Default value for :format is :pretty
 # set :format, :pretty
 
