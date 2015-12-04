@@ -77,14 +77,19 @@ $(function(){
   }
 
   chrome.runtime.onMessage.addListener( function( request ) {
-    $( "#effect-area .ink" ).fadeOut( 1000 ).queue( function(){
-      this.remove();
-    } );
-    if( $( "#effect-area" ).css( "pointer-events" ) == "none" )
-      $( "#effect-area" ).css( "pointer-events", "auto" );
-    else
-      $( "#effect-area" ).css( "pointer-events", "none" );
-  } );
+    if( request.type == "change_mode" ){
+      if( request.mode == "none" ){
+        $( "#effect-area .ink" )
+            .fadeOut( 1000 ).queue( function(){
+              this.remove();
+            } );
+        $( "#effect-area" ).css( "pointer-events", "none" );
+      }
 
+      if( request.mode == "paint" ){
+        $( "#effect-area" ).css( "pointer-events", "auto" );
+      }
+    }
+  } );
 });
 
