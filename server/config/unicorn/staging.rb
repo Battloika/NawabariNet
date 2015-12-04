@@ -2,10 +2,10 @@ worker_processes Integer(ENV["WEB_CONCURRENCY"] || 3)
 timeout 60
 preload_app true
 
-listen "/var/www/server/shared/tmp/sockets/unicorn.sock"
-pid "/var/www/server/shared/tmp/pids/unicorn.pid"
+listen "#{ENV.fetch('DEPLOY_TO')}/shared/tmp/sockets/unicorn.sock"
+pid "#{ENV.fetch('DEPLOY_TO')}/shared/tmp/pids/unicorn.pid"
 
-working_directory "/var/www/server/current"
+working_directory "#{ENV.fetch('DEPLOY_TO')}/current"
 
 before_fork do |server, worker|
   Signal.trap 'TERM' do
@@ -26,5 +26,5 @@ after_fork do |server, worker|
     ActiveRecord::Base.establish_connection
 end
 
-stderr_path File.expand_path('/var/www/server/shared/log/error_unicorn.log', ENV['RAILS_ROOT'])
-stdout_path File.expand_path('/var/www/server/shared/log/unicorn.log', ENV['RAILS_ROOT'])
+stderr_path File.expand_path("#{ENV.fetch('DEPLOY_TO')}/shared/log/error_unicorn.log", ENV.fetch('RAILS_ROOT'))
+stdout_path File.expand_path("#{ENV.fetch('DEPLOY_TO')}/shared/log/unicorn.log", ENV.fetch('RAILS_ROOT'))

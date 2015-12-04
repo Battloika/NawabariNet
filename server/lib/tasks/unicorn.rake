@@ -28,7 +28,7 @@ namespace :unicorn do
 
   def unicorn_pid
     begin
-      File.read("/var/www/server/shared/tmp/pids/unicorn.pid").to_i
+      File.read("#{ENV.fetch('DEPLOY_TO')}/shared/tmp/pids/unicorn.pid").to_i
     rescue Errno::ENOENT
       raise "Unicorn doesn't seem to be running"
     end
