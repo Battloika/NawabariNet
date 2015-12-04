@@ -1,12 +1,8 @@
 namespace :unicorn do
-  desc "Start unicorn for staging env."
-  task(:start_staging) {
-    config = Rails.root.join('config', 'unicorn', 'staging.rb')
-    sh "bundle exec unicorn_rails -c #{config} -E staging -D"
-  }
-  task(:start_production) {
-    config = Rails.root.join('config', 'unicorn', 'production.rb')
-    sh "bundle exec unicorn_rails -c #{config} -E producton -D"
+  desc "Start unicorn"
+  task(:start) {
+    config = Rails.root.join('config', 'unicorn', "#{Rails.env}.rb")
+    sh "bundle exec unicorn_rails -c #{config} -E #{Rails.env} -D"
   }
 
   desc "Stop unicorn"
@@ -32,7 +28,7 @@ namespace :unicorn do
 
   def unicorn_pid
     begin
-      File.read("/var/www/server/shared/tmp/pids/unicorn.pid").to_i
+      File.read("#{ENV.fetch('DEPLOY_TO')}/shared/tmp/pids/unicorn.pid").to_i
     rescue Errno::ENOENT
       raise "Unicorn doesn't seem to be running"
     end
