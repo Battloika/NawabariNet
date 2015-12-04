@@ -39,3 +39,7 @@ class Capistrano::Git
     end
   end
 end
+
+# dotenv
+require "dotenv"
+Dotenv.load('.env')
