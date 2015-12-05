@@ -33,6 +33,11 @@ gem 'unicorn'
 # Environment value
 gem 'dotenv-rails'
 
+# for API
+gem 'grape'
+gem 'grape-entity'
+gem 'oj'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   #gem 'byebug'
