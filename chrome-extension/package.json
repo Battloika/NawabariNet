@@ -18,5 +18,10 @@
   "scripts": {
     "build": "rm -rf dist/*.js && webpack",
     "watch": "rm -rf dist/*.js && webpack -w"
+  },
+  "dependencies": {
+    "babel-preset-react": "^6.3.13",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3"
   }
 }

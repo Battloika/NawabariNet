@@ -6,7 +6,17 @@ module.exports = {
   },
   module: {
     loaders: [
-      {test: /\.js$/, loader: "babel", query: {presets: ["es2015", "stage-0"]}}
+      {
+        test: /\.js$/,
+        loader: "babel",
+        query: {
+          presets: [
+            "es2015",
+            "stage-0",
+            "react"
+          ]
+        }
+      }
     ]
   }
 };

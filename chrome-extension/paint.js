@@ -78,7 +78,7 @@ $(function(){
 
   chrome.runtime.onMessage.addListener( function( request ) {
     if( request.type == "change_mode" ){
-      if( request.mode == "none" ){
+      if( request.mode == "clear" ){
         $( "#effect-area .ink" )
             .fadeOut( 1000 ).queue( function(){
               this.remove();

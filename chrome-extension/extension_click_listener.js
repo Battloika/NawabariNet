@@ -1,4 +1,4 @@
-var mode = "none";
+var mode = "clear";
 
 chrome.runtime.onMessage.addListener( function( request, sender, sendResponse ){
   if( request.type == "get_mode" ){
@@ -11,13 +11,13 @@ chrome.runtime.onMessage.addListener( function( request, sender, sendResponse ){
 } );
 
 chrome.tabs.onActivated.addListener(function(activeInfo) {
-  mode = "none";
+  mode = "clear";
   changePaintMode();
 } );
 
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo) {
-  mode = "none";
+  mode = "clear";
   changePaintMode();
 } );
 
