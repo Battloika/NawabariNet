@@ -1,0 +1,22 @@
+{
+  "name": "nawabari_net",
+  "version": "0.1.0",
+  "description": "paint favorite page",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Battloika/NawabariNet.git"
+  },
+  "author": "sesta",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.3.13",
+    "babel-loader": "^6.2.0",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13",
+    "webpack": "^1.12.9"
+  },
+  "scripts": {
+    "build": "rm -rf dist/*.js && webpack",
+    "watch": "rm -rf dist/*.js && webpack -w"
+  }
+}
