@@ -39,6 +39,7 @@ gem 'grape-entity'
 gem 'oj'
 
 gem 'normalize_url'
+gem 'addressable', require: 'addressable/uri'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
