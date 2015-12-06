@@ -5,6 +5,6 @@ class Page < ActiveRecord::Base
   serialize :painted_map, Array
 
   def self.normalize_url(url)
-    NormalizeUrl.process(url)
+    Addressable::URI.parse(NormalizeUrl.process(url))
   end
 end
