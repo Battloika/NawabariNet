@@ -160,7 +160,7 @@
 	        dataType: "json",
 	        data: {
 	          api_key: env.api_key,
-	          url: "http://sample.com",
+	          url: current_url,
 	          painted_map: painted_data
 	        },
 	        success: function success(json) {
@@ -186,12 +186,14 @@
 	})(_react2.default.Component);
 
 	var init_mode = "clear";
+	var current_url = "";
 	var env = null;
 
 	chrome.runtime.sendMessage({
-	  type: "get_mode"
+	  type: "get"
 	}, function (response) {
-	  init_mode = response;
+	  init_mode = response.mode;
+	  current_url = response.url;
 
 	  $.getJSON("env.json", function (json) {
 	    env = json;

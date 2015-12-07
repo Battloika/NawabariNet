@@ -67,7 +67,7 @@ class PostPaintDataButton extends React.Component {
       dataType: "json",
       data: {
         api_key: env.api_key,
-        url: "http://sample.com",
+        url: current_url,
         painted_map: painted_data
       },
       success: function( json ){
@@ -88,12 +88,14 @@ class PostPaintDataButton extends React.Component {
 
 
 var init_mode = "clear";
+var current_url = "";
 var env = null;
 
 chrome.runtime.sendMessage( {
-  type: "get_mode"
-}, ( response ) => {
-  init_mode = response;
+  type: "get"
+}, response => {
+  init_mode = response.mode;
+  current_url = response.url;
 
   $.getJSON( "env.json", json => {
     env = json;

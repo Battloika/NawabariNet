@@ -135,7 +135,12 @@
 	    }
 	  }
 
-	  chrome.runtime.onMessage.addListener(function (request) {
+	  chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+	    if (request.type == "get_url") {
+	      sendResponse(location.href);
+	      return;
+	    }
+
 	    if (request.type == "change_mode") {
 	      if (request.mode == "clear") {
 	        $("#effect-area .ink").fadeOut(1000).queue(function () {
