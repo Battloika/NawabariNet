@@ -1,8 +1,18 @@
 module.exports = {
-  entry: __dirname + "/src/browser_action/main.js",
+  entry: {
+    browser_action: [
+      __dirname + "/src/browser_action/main.js"
+    ],
+    background: [
+      __dirname + "/src/background/extension_click_listener.js"
+    ],
+    content_script: [
+      __dirname + "/src/content_script/paint.js"
+    ]
+  },
   output: {
-    path: __dirname + "/dist",
-    filename: "browser_action.js"
+    path: __dirname + "/dist/",
+    filename: "[name].js"
   },
   module: {
     loaders: [
