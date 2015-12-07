@@ -5,8 +5,12 @@ class Utils::PaintedMap
   end
 
   def self.parse(value)
-    if value.instance_of?(String) && value.include?('[')
-      value = value[2..-3].split('],[').map { |row| row.split(',') }.map { |row| row.map(&:to_i) }
+    if value.instance_of?(Hashie::Mash)
+      value = value.to_a.map { |v| v[1].map(&:to_i) }
+    elsif value.instance_of?(String) && value.gsub(/\s/, '').include?('],[')
+      value = value.gsub(/\s/, '')[2..-3].split('],[').map do |row|
+        row.split(',')
+      end.map { |row| row.map(&:to_i) }
     end
     unless value.instance_of?(Array) &&
       value.first.instance_of?(Array) &&
