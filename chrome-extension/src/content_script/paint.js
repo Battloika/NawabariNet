@@ -1,12 +1,13 @@
 $(function(){
   var image_urls = {
     red_ink: chrome.extension.getURL( "images/red_ink.png" ),
-    blue_ink: chrome.extension.getURL( "images/blue_ink.png" )
+    blue_ink: chrome.extension.getURL( "images/blue_ink.png" ),
+    sight: chrome.extension.getURL( "images/sight.png" )
   };
 
   var mousedowned = false;
   var in_interval = false;
-  var drawInterval = window.setInterval(function() {
+  var drawInterval = window.setInterval( () => {
     in_interval = false;
   }, 100);
 
@@ -24,20 +25,18 @@ $(function(){
     "height": paint_area_height + "px",
     "overflow": "hidden",
     "pointer-events": "none"
-  } ).on( "mousedown", function( event ){
+  } ).on( "mousedown", event => {
     mousedowned = true;
     paint( event.pageX, event.pageY, 3 );
-  } ).on( "mousemove", function( event ){
+  } ).on( "mousemove", event => {
     if( mousedowned && !in_interval ){
       paint( event.pageX, event.pageY, 5 );
       in_interval = true;
     }
-  } ).on( "mouseup", function(){
+  } ).on( "mouseup", () => {
     mousedowned = false;
   } ) );
 
-  paint( -200, -200, 1, 0, true );
-    // 一度描画すると軽くなるので
 
   function paint( pos_x, pos_y, num, variance, fadeout ){
     if( !pos_x ) pos_x = 100;
@@ -53,13 +52,12 @@ $(function(){
 
       var $img = $( "<img>", {
         "class": "ink",
-        "src": image_urls[ "red_ink" ],
-        "width": ink_width + "px"
+        "src": image_urls[ "red_ink" ]
       } ).css( {
-        "display": "none",
         "position": "absolute",
-        "top": ( pos_y - ink_width / 2 + variance_radius * Math.sin( variance_radian ) ) + "px",
-        "left": ( pos_x - ink_width / 2 + variance_radius * Math.cos( variance_radian ) )  + "px",
+        "top": ( $( window ).scrollTop() + window.innerHeight ) + "px",
+        "left": ( window.innerWidth / 2 ) + "px",
+        "width": ( ink_width / 5 ) + "px",
         "pointer-events": "none"
       } );
 
@@ -68,26 +66,39 @@ $(function(){
       if( fadeout )
         $img.fadeIn( 100 )
             .delay( 500 )
-            .fadeOut( 2000 ).queue(function() {
+            .fadeOut( 2000 ).queue( () => {
               this.remove();
             } );
       else
-        $img.fadeIn( 100 );
+        $img.animate( {
+          "top": ( pos_y - ink_width / 2 + variance_radius * Math.sin( variance_radian ) + ink_width / 2 ) + "px",
+          "left": ( pos_x - ink_width / 2 + variance_radius * Math.cos( variance_radian ) + ink_width / 2 )  + "px"
+        }, 300 ).animate( {
+          "top": ( pos_y - ink_width / 2 + variance_radius * Math.sin( variance_radian ) ) + "px",
+          "left": ( pos_x - ink_width / 2 + variance_radius * Math.cos( variance_radian ) )  + "px",
+          "width": ink_width + "px",
+        }, 100 );
     }
   }
 
-  chrome.runtime.onMessage.addListener( function( request ) {
+  chrome.runtime.onMessage.addListener( request => {
     if( request.type == "change_mode" ){
       if( request.mode == "clear" ){
         $( "#effect-area .ink" )
-            .fadeOut( 1000 ).queue( function(){
+            .fadeOut( 1000 ).queue( () => {
               this.remove();
             } );
-        $( "#effect-area" ).css( "pointer-events", "none" );
+        $( "#effect-area" ).css( {
+          "pointer-events": "none",
+          "cursor": "auto"
+        } );
       }
 
       if( request.mode == "paint" ){
-        $( "#effect-area" ).css( "pointer-events", "auto" );
+        $( "#effect-area" ).css( {
+          "pointer-events": "auto",
+          "cursor": "url(" + image_urls.sight + "), crosshair"
+        } );
       }
     }
   } );
