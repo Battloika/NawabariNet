@@ -152,8 +152,7 @@
 	  _createClass(PostPaintDataButton, [{
 	    key: "postPaintData",
 	    value: function postPaintData() {
-	      var painted_data = [[0, 0], [1, 0]];
-
+	      console.log(painted_data);
 	      $.ajax({
 	        type: "POST",
 	        url: env.api_server_url + "api/v1/paints",
@@ -187,6 +186,7 @@
 
 	var init_mode = "clear";
 	var current_url = "";
+	var painted_data = [];
 	var env = null;
 
 	chrome.runtime.sendMessage({
@@ -194,6 +194,13 @@
 	}, function (response) {
 	  init_mode = response.mode;
 	  current_url = response.url;
+
+	  for (var i = 0; i < 10; i++) {
+	    painted_data[i] = [];
+	    for (var j = 0; j < 10; j++) {
+	      painted_data[i][j] = 1;
+	    }
+	  }
 
 	  $.getJSON("env.json", function (json) {
 	    env = json;
