@@ -9,15 +9,6 @@ class PaintModeForm extends React.Component {
     }
   }
 
-  styles() {
-    return {
-      container: {
-        fontFamily: "helvetica, arial, 'hiragino kaku gothic pro', meiryo, 'ms pgothic', sans-serif",
-        fontSize: 11
-      }
-    }
-  }
-
   setModePaint() {
     this.setState( {
       mode: "paint"
@@ -36,23 +27,24 @@ class PaintModeForm extends React.Component {
       mode: this.state.mode
     } );
 
-    const styles = this.styles();
+    var clear_button_class = "btn btn-default"
+    var paint_button_class = "btn btn-default"
 
-    var clear_radio = <input type="radio" name = "paint_mode" onChange={::this.setModeClear}/>;
     if( this.state.mode == "clear" )
-      clear_radio = <input type="radio" name = "paint_mode" onChange={::this.setModeClear} checked />;
-
-    var paint_radio = <input type="radio" name = "paint_mode" onChange={::this.setModePaint}/>;
+      clear_button_class = "btn btn-warning"
     if( this.state.mode == "paint" )
-      paint_radio = <input type="radio" name = "paint_mode" onChange={::this.setModePaint} checked />;
+      paint_button_class = "btn btn-warning"
+
 
     return (
-      <form style={styles.container}>
-        塗らない
-        {clear_radio}
-    　    塗る
-        {paint_radio}
-      </form>
+      <div className="btn-group" role="group">
+        <button type="button" onClick={::this.setModeClear} className={clear_button_class}>
+          塗らない
+        </button>
+        <button type="button" onClick={::this.setModePaint} className={paint_button_class}>
+          塗る
+        </button>
+      </div>
     );
   }
 }
@@ -79,7 +71,9 @@ class PostPaintDataButton extends React.Component {
 
   render() {
     return (
-      <button onClick={::this.postPaintData}>結果を送信する</button>
+      <button className="btn btn-default" onClick={::this.postPaintData}>
+        塗り情報を送信する
+      </button>
     );
   }
 }

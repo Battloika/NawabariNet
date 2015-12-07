@@ -87,16 +87,6 @@
 	  }
 
 	  _createClass(PaintModeForm, [{
-	    key: "styles",
-	    value: function styles() {
-	      return {
-	        container: {
-	          fontFamily: "helvetica, arial, 'hiragino kaku gothic pro', meiryo, 'ms pgothic', sans-serif",
-	          fontSize: 11
-	        }
-	      };
-	    }
-	  }, {
 	    key: "setModePaint",
 	    value: function setModePaint() {
 	      this.setState({
@@ -118,21 +108,25 @@
 	        mode: this.state.mode
 	      });
 
-	      var styles = this.styles();
+	      var clear_button_class = "btn btn-default";
+	      var paint_button_class = "btn btn-default";
 
-	      var clear_radio = _react2.default.createElement("input", { type: "radio", name: "paint_mode", onChange: this.setModeClear.bind(this) });
-	      if (this.state.mode == "clear") clear_radio = _react2.default.createElement("input", { type: "radio", name: "paint_mode", onChange: this.setModeClear.bind(this), checked: true });
-
-	      var paint_radio = _react2.default.createElement("input", { type: "radio", name: "paint_mode", onChange: this.setModePaint.bind(this) });
-	      if (this.state.mode == "paint") paint_radio = _react2.default.createElement("input", { type: "radio", name: "paint_mode", onChange: this.setModePaint.bind(this), checked: true });
+	      if (this.state.mode == "clear") clear_button_class = "btn btn-warning";
+	      if (this.state.mode == "paint") paint_button_class = "btn btn-warning";
 
 	      return _react2.default.createElement(
-	        "form",
-	        { style: styles.container },
-	        "塗らない",
-	        clear_radio,
-	        "　    塗る",
-	        paint_radio
+	        "div",
+	        { className: "btn-group", role: "group" },
+	        _react2.default.createElement(
+	          "button",
+	          { type: "button", onClick: this.setModeClear.bind(this), className: clear_button_class },
+	          "塗らない"
+	        ),
+	        _react2.default.createElement(
+	          "button",
+	          { type: "button", onClick: this.setModePaint.bind(this), className: paint_button_class },
+	          "塗る"
+	        )
 	      );
 	    }
 	  }]);
@@ -174,8 +168,8 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        "button",
-	        { onClick: this.postPaintData.bind(this) },
-	        "結果を送信する"
+	        { className: "btn btn-default", onClick: this.postPaintData.bind(this) },
+	        "塗り情報を送信する"
 	      );
 	    }
 	  }]);
