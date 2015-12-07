@@ -1,7 +1,8 @@
 $(function(){
   var image_urls = {
     red_ink: chrome.extension.getURL( "images/red_ink.png" ),
-    blue_ink: chrome.extension.getURL( "images/blue_ink.png" )
+    blue_ink: chrome.extension.getURL( "images/blue_ink.png" ),
+    sight: chrome.extension.getURL( "images/sight.png" )
   };
 
   var mousedowned = false;
@@ -87,11 +88,17 @@ $(function(){
             .fadeOut( 1000 ).queue( () => {
               this.remove();
             } );
-        $( "#effect-area" ).css( "pointer-events", "none" );
+        $( "#effect-area" ).css( {
+          "pointer-events": "none",
+          "cursor": "auto"
+        } );
       }
 
       if( request.mode == "paint" ){
-        $( "#effect-area" ).css( "pointer-events", "auto" );
+        $( "#effect-area" ).css( {
+          "pointer-events": "auto",
+          "cursor": "url(" + image_urls.sight + "), crosshair"
+        } );
       }
     }
   } );
