@@ -81,7 +81,12 @@ $(function(){
     }
   }
 
-  chrome.runtime.onMessage.addListener( request => {
+  chrome.runtime.onMessage.addListener( ( request, sender, sendResponse ) => {
+    if( request.type == "get_url" ){
+      sendResponse( location.href );
+      return;
+    }
+
     if( request.type == "change_mode" ){
       if( request.mode == "clear" ){
         $( "#effect-area .ink" )

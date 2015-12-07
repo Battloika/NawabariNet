@@ -54,15 +54,18 @@
 	"use strict";
 
 	var mode = "clear";
+	var url = "";
 
 	chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-	  if (request.type == "get_mode") {
-	    sendResponse(mode);
-	    return;
+	  if (request.type == "get") {
+	    sendResponse({
+	      mode: mode,
+	      url: url
+	    });
+	  } else if (request.type == "change_mode") {
+	    mode = request.mode;
+	    changePaintMode();
 	  }
-
-	  mode = request.mode;
-	  changePaintMode();
 	});
 
 	chrome.tabs.onActivated.addListener(function (activeInfo) {
@@ -86,6 +89,15 @@
 	    chrome.tabs.sendMessage(currentTab.id, {
 	      type: "change_mode",
 	      mode: mode
+	    });
+	  });
+
+	  chrome.tabs.query(queryInfo, function (result) {
+	    var currentTab = result.shift();
+	    chrome.tabs.sendMessage(currentTab.id, {
+	      type: "get_url"
+	    }, function (response) {
+	      url = response;
 	    });
 	  });
 	}

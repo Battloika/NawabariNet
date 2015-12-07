@@ -140,13 +140,73 @@
 	  return PaintModeForm;
 	})(_react2.default.Component);
 
+	var PostPaintDataButton = (function (_React$Component2) {
+	  _inherits(PostPaintDataButton, _React$Component2);
+
+	  function PostPaintDataButton() {
+	    _classCallCheck(this, PostPaintDataButton);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(PostPaintDataButton).apply(this, arguments));
+	  }
+
+	  _createClass(PostPaintDataButton, [{
+	    key: "postPaintData",
+	    value: function postPaintData() {
+	      $.ajax({
+	        type: "POST",
+	        url: env.api_server_url + "api/v1/paints",
+	        dataType: "json",
+	        data: {
+	          api_key: env.api_key,
+	          url: current_url,
+	          painted_map: painted_data
+	        },
+	        success: function success(json) {
+	          console.log(json);
+	        },
+	        error: function error(err) {
+	          console.log(err);
+	        }
+	      });
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "button",
+	        { onClick: this.postPaintData.bind(this) },
+	        "結果を送信する"
+	      );
+	    }
+	  }]);
+
+	  return PostPaintDataButton;
+	})(_react2.default.Component);
+
 	var init_mode = "clear";
+	var current_url = "";
+	var painted_data = [];
+	var env = null;
 
 	chrome.runtime.sendMessage({
-	  type: "get_mode"
+	  type: "get"
 	}, function (response) {
-	  init_mode = response;
-	  _reactDom2.default.render(_react2.default.createElement(PaintModeForm, null), document.getElementById("paint-mode"));
+	  init_mode = response.mode;
+	  current_url = response.url;
+
+	  for (var i = 0; i < 10; i++) {
+	    painted_data[i] = [];
+	    for (var j = 0; j < 10; j++) {
+	      painted_data[i][j] = 1;
+	    }
+	  }
+
+	  $.getJSON("env.json", function (json) {
+	    env = json;
+	    _reactDom2.default.render(_react2.default.createElement(PaintModeForm, null), document.getElementById("paint-mode"));
+
+	    _reactDom2.default.render(_react2.default.createElement(PostPaintDataButton, null), document.getElementById("post-paint-data"));
+	  });
 	});
 
 /***/ },
