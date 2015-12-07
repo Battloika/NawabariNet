@@ -27,6 +27,11 @@ module API
       end
 
       mount V1::Paints
+      add_swagger_documentation(
+        api_version: 'v1',
+        hide_format: true,
+        hide_documentation_path: true
+      )
     end
   end
 end
