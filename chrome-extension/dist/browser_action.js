@@ -140,13 +140,65 @@
 	  return PaintModeForm;
 	})(_react2.default.Component);
 
+	var PostPaintDataButton = (function (_React$Component2) {
+	  _inherits(PostPaintDataButton, _React$Component2);
+
+	  function PostPaintDataButton() {
+	    _classCallCheck(this, PostPaintDataButton);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(PostPaintDataButton).apply(this, arguments));
+	  }
+
+	  _createClass(PostPaintDataButton, [{
+	    key: "postPaintData",
+	    value: function postPaintData() {
+	      var painted_data = "[ [ 0, 0 ], [ 1, 0 ] ]";
+
+	      $.ajax({
+	        type: "POST",
+	        url: env.api_server_url + "api/v1/paints",
+	        dataType: "json",
+	        data: {
+	          api_key: env.api_key,
+	          url: "http://sample.com",
+	          painted_map: painted_data
+	        },
+	        success: function success(json) {
+	          console.log(json);
+	        },
+	        error: function error(err) {
+	          console.log(err);
+	        }
+	      });
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "button",
+	        { onClick: this.postPaintData.bind(this) },
+	        "結果を送信する"
+	      );
+	    }
+	  }]);
+
+	  return PostPaintDataButton;
+	})(_react2.default.Component);
+
 	var init_mode = "clear";
+	var env = null;
 
 	chrome.runtime.sendMessage({
 	  type: "get_mode"
 	}, function (response) {
 	  init_mode = response;
-	  _reactDom2.default.render(_react2.default.createElement(PaintModeForm, null), document.getElementById("paint-mode"));
+
+	  $.getJSON("env.json", function (json) {
+	    env = json;
+	    _reactDom2.default.render(_react2.default.createElement(PaintModeForm, null), document.getElementById("paint-mode"));
+
+	    _reactDom2.default.render(_react2.default.createElement(PostPaintDataButton, null), document.getElementById("post-paint-data"));
+	  });
 	});
 
 /***/ },

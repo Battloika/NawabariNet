@@ -57,14 +57,54 @@ class PaintModeForm extends React.Component {
   }
 }
 
+class PostPaintDataButton extends React.Component {
+  postPaintData() {
+    var painted_data = "[ [ 0, 0 ], [ 1, 0 ] ]";
+
+    $.ajax( {
+      type: "POST",
+      url: env.api_server_url + "api/v1/paints",
+      dataType: "json",
+      data: {
+        api_key: env.api_key,
+        url: "http://sample.com",
+        painted_map: painted_data
+      },
+      success: function( json ){
+        console.log( json );
+      },
+      error: function( err ){
+        console.log( err );
+      }
+    } );
+  }
+
+  render() {
+    return (
+      <button onClick={::this.postPaintData}>結果を送信する</button>
+    );
+  }
+}
+
+
 var init_mode = "clear";
+var env = null;
 
 chrome.runtime.sendMessage( {
   type: "get_mode"
 }, ( response ) => {
   init_mode = response;
-  ReactDom.render(
-    <PaintModeForm />,
-    document.getElementById( "paint-mode" )
-  );
+
+  $.getJSON( "env.json", json => {
+    env = json;
+    ReactDom.render(
+      <PaintModeForm />,
+      document.getElementById( "paint-mode" )
+    );
+
+    ReactDom.render(
+      <PostPaintDataButton />,
+      document.getElementById( "post-paint-data" )
+    );
+  } )
 });
