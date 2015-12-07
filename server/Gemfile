@@ -33,6 +33,18 @@ gem 'unicorn'
 # Environment value
 gem 'dotenv-rails'
 
+# for API
+gem 'grape'
+gem 'grape-entity'
+gem 'grape-swagger'
+gem 'grape-swagger-ui'
+gem 'grape-swagger-rails'
+
+gem 'oj'
+
+gem 'normalize_url'
+gem 'addressable', require: 'addressable/uri'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   #gem 'byebug'
