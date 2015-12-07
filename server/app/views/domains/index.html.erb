@@ -1,0 +1,19 @@
+<h1>Nawabari Net</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Domain</th>
+      <th>Page count</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @domains.each do |domain| %>
+      <tr>
+        <td><%= domain.domain %></td>
+        <td><%= domain.pages.count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

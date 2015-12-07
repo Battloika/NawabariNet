@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
+  root 'domains#index'
+
   mount API::Base => '/'
   mount GrapeSwaggerRails::Engine => '/api_docs'
 
   resources :pages
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
