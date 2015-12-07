@@ -152,7 +152,6 @@
 	  _createClass(PostPaintDataButton, [{
 	    key: "postPaintData",
 	    value: function postPaintData() {
-	      console.log(painted_data);
 	      $.ajax({
 	        type: "POST",
 	        url: env.api_server_url + "api/v1/paints",

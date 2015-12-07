@@ -59,7 +59,6 @@ class PaintModeForm extends React.Component {
 
 class PostPaintDataButton extends React.Component {
   postPaintData() {
-    console.log( painted_data );
     $.ajax( {
       type: "POST",
       url: env.api_server_url + "api/v1/paints",
