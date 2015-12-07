@@ -18,8 +18,8 @@ module API
 
         params :attributes do
           requires :api_key, type: String, desc: "API key."
-          requires :url, type: String, desc: "Page url."
-          requires :painted_map, type: ::Utils::PaintedMap, desc: "Page painted_map."
+          requires :url, type: String, desc: "Page url.", documentation: { example: 'http://sample.com' }
+          requires :painted_map, type: ::Utils::PaintedMap, desc: "Page painted_map.", documentation: { param_type: 'form', example: Array.new(10).map { Array.new(10).map { rand(2) } }.to_s }
         end
       end
 
