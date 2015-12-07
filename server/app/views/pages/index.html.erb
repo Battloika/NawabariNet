@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Pages</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Url</th>
+      <th>Title</th>
+      <th>Painted map</th>
+      <th>Domain</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @pages.each do |page| %>
+      <tr>
+        <td><%= page.url %></td>
+        <td><%= page.title %></td>
+        <td><%= page.painted_map %></td>
+        <td><%= page.domain.domain %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
