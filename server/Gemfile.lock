@@ -109,6 +109,8 @@ GEM
     grape-swagger-rails (0.1.0)
       grape-swagger (>= 0.7.2)
       railties (>= 3.2.12)
+    grape-swagger-ui (0.0.9)
+      railties (>= 3.1)
     hashie (3.4.3)
     hirb (0.7.3)
     hirb-unicode (0.0.5)
@@ -267,6 +269,7 @@ DEPENDENCIES
   grape-entity
   grape-swagger
   grape-swagger-rails
+  grape-swagger-ui
   hirb
   hirb-unicode
   jbuilder (~> 2.0)
