@@ -56,6 +56,8 @@
 	"use strict";
 
 	$(function () {
+	  var _this2 = this;
+
 	  var image_urls = {
 	    red_ink: chrome.extension.getURL("images/red_ink.png"),
 	    blue_ink: chrome.extension.getURL("images/blue_ink.png")
@@ -92,10 +94,9 @@
 	    mousedowned = false;
 	  }));
 
-	  paint(-200, -200, 1, 0, true);
-	  // 一度描画すると軽くなるので
-
 	  function paint(pos_x, pos_y, num, variance, fadeout) {
+	    var _this = this;
+
 	    if (!pos_x) pos_x = 100;
 	    if (!pos_y) pos_y = 100;
 	    if (!num) num = 10;
@@ -109,21 +110,27 @@
 
 	      var $img = $("<img>", {
 	        "class": "ink",
-	        "src": image_urls["red_ink"],
-	        "width": ink_width + "px"
+	        "src": image_urls["red_ink"]
 	      }).css({
-	        "display": "none",
 	        "position": "absolute",
-	        "top": pos_y - ink_width / 2 + variance_radius * Math.sin(variance_radian) + "px",
-	        "left": pos_x - ink_width / 2 + variance_radius * Math.cos(variance_radian) + "px",
+	        "top": $(window).scrollTop() + window.innerHeight + "px",
+	        "left": window.innerWidth / 2 + "px",
+	        "width": ink_width / 5 + "px",
 	        "pointer-events": "none"
 	      });
 
 	      $("#effect-area").append($img);
 
 	      if (fadeout) $img.fadeIn(100).delay(500).fadeOut(2000).queue(function () {
-	        this.remove();
-	      });else $img.fadeIn(100);
+	        _this.remove();
+	      });else $img.animate({
+	        "top": pos_y - ink_width / 2 + variance_radius * Math.sin(variance_radian) + ink_width / 2 + "px",
+	        "left": pos_x - ink_width / 2 + variance_radius * Math.cos(variance_radian) + ink_width / 2 + "px"
+	      }, 300).animate({
+	        "top": pos_y - ink_width / 2 + variance_radius * Math.sin(variance_radian) + "px",
+	        "left": pos_x - ink_width / 2 + variance_radius * Math.cos(variance_radian) + "px",
+	        "width": ink_width + "px"
+	      }, 100);
 	    }
 	  }
 
@@ -131,7 +138,7 @@
 	    if (request.type == "change_mode") {
 	      if (request.mode == "clear") {
 	        $("#effect-area .ink").fadeOut(1000).queue(function () {
-	          this.remove();
+	          _this2.remove();
 	        });
 	        $("#effect-area").css("pointer-events", "none");
 	      }
