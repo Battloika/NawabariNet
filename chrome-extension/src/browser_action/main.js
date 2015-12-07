@@ -59,7 +59,7 @@ class PaintModeForm extends React.Component {
 
 class PostPaintDataButton extends React.Component {
   postPaintData() {
-    var painted_data = "[ [ 0, 0 ], [ 1, 0 ] ]";
+    var painted_data = [ [ 0, 0 ], [ 1, 0 ] ];
 
     $.ajax( {
       type: "POST",

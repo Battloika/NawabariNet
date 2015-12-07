@@ -152,7 +152,7 @@
 	  _createClass(PostPaintDataButton, [{
 	    key: "postPaintData",
 	    value: function postPaintData() {
-	      var painted_data = "[ [ 0, 0 ], [ 1, 0 ] ]";
+	      var painted_data = [[0, 0], [1, 0]];
 
 	      $.ajax({
 	        type: "POST",
