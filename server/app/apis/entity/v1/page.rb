@@ -1,9 +1,14 @@
 module Entity
   module V1
     class Page < Grape::Entity
-      expose :id, :url, :title, :painted_map, :created_at, :updated_at
+      expose :id, documentation: { type: 'Integer' }
+      expose :url, documentation: { type: 'String' }
+      expose :title, documentation: { type: 'String' }
+      expose :painted_map, documentation: { type: Utils::PaintedMap }
+      expose :created_at, documentation: { type: 'String' }
+      expose :updated_at, documentation: { type: 'String' }
 
-      expose :domain, using: Entity::V1::Domain
+      expose :domain, using: Entity::V1::Domain, documentation: { type: Entity::V1::Domain }
     end
   end
 end

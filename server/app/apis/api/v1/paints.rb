@@ -22,7 +22,12 @@ module API
         params do
           use :attributes
         end
-        post '/' do
+        post '/', http_codes: [
+          [201, 'OK (saved data)', Entity::V1::Paint],
+          [400, 'Invalid parameter'],
+          [401, 'Unauthorized (Invalid API key)'],
+          [500, 'Internal Server Error']
+        ] do
           authenticate!
 
           normalize_url = Page.normalize_url(params[:url])
