@@ -117,7 +117,8 @@
 	        "top": $(window).scrollTop() + window.innerHeight + "px",
 	        "left": window.innerWidth / 2 + "px",
 	        "width": ink_width / 5 + "px",
-	        "pointer-events": "none"
+	        "pointer-events": "none",
+	        "z-index": "1000"
 	      });
 
 	      $("#effect-area").append($img);
