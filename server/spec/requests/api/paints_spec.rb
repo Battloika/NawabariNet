@@ -7,11 +7,12 @@ describe Api do
     describe 'POST /api/v1/paints' do
       let (:path) { '/api/v1/paints' }
       let (:api_key) { ENV.fetch('API_KEY') }
+      let (:url) { 'http://hoge.com/' }
       let (:painted_map) { Array.new(10).map { Array.new(10).map { rand(2) } } }
       let (:parameters) do
         {
           api_key: api_key,
-          url: "http://hoge.com/",
+          url: url,
           painted_map: painted_map
         }
       end
