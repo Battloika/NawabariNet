@@ -61,6 +61,11 @@ group :development, :test do
   gem 'hirb'
   gem 'hirb-unicode'
   gem 'awesome_print'
+
+  # rspec test
+  gem 'rspec-rails', '~> 3.0'
+  gem 'rspec-its'
+  gem 'json_expressions'
 end
 
 group :development do
