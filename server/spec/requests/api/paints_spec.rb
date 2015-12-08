@@ -47,9 +47,20 @@ describe Api do
           {
             id:      Fixnum,
             point:   (painted_map.flatten.count(1).to_f / painted_map.flatten.size.to_f * 100).round(1),
-            page_id: Fixnum,
             created_at: /\d{4}\-\d{2}\-\d{2}T\d{2}:\d{2}:\d{2}\.\d+\+09:00/,
-            updated_at: /\d{4}\-\d{2}\-\d{2}T\d{2}:\d{2}:\d{2}\.\d+\+09:00/
+            updated_at: /\d{4}\-\d{2}\-\d{2}T\d{2}:\d{2}:\d{2}\.\d+\+09:00/,
+            page: {
+              id: Fixnum,
+              url: Page.normalize_url(url).to_s,
+              title: nil,
+              painted_map: painted_map,
+              created_at: /\d{4}\-\d{2}\-\d{2}T\d{2}:\d{2}:\d{2}\.\d+\+09:00/,
+              updated_at: /\d{4}\-\d{2}\-\d{2}T\d{2}:\d{2}:\d{2}\.\d+\+09:00/,
+              domain: {
+                id: Fixnum,
+                domain: Page.normalize_url(url).host
+              }
+            }
           }
         end
 
