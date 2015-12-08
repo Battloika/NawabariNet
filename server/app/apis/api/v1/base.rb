@@ -7,6 +7,15 @@ module API
       prefix :api
       version 'v1', using: :path
 
+      helpers do
+        # 401 : Unauthorized
+        def authenticate!
+          unless params[:api_key] == ENV.fetch('API_KEY')
+            error!('Unauthorized (Invalid API key)', 401)
+          end
+        end
+      end
+
       # 404 : Not Found
       rescue_from ActiveRecord::RecordNotFound do |e|
         rack_response({ message: e.message, status: 404 }.to_json, 404)

@@ -2,12 +2,6 @@ module API
   module V1
     class Paints < Grape::API
       helpers do
-        def authenticate!
-          unless params[:api_key] == ENV.fetch('API_KEY')
-            error!('Unauthorized. Invalid key.', 401)
-          end
-        end
-
         def calc_points(page, painted_map)
           # 塗った割合(%)をpointとする
           Paint.create({
