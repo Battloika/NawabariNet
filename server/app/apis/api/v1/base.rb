@@ -23,7 +23,7 @@ module API
 
       # 400 : Bad Request
       rescue_from Grape::Exceptions::ValidationErrors do |e|
-        error_response(message: e.message, status: 400)
+        rack_response({error: e.message}.to_json, 400)
       end
 
       # 500 : Internal Server Error
