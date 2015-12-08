@@ -18,12 +18,12 @@ module API
 
       # 404 : Not Found
       rescue_from ActiveRecord::RecordNotFound do |e|
-        rack_response({ message: e.message, status: 404 }.to_json, 404)
+        error_response(message: e.message, status: 404)
       end
 
       # 400 : Bad Request
       rescue_from Grape::Exceptions::ValidationErrors do |e|
-        rack_response(e.to_json, 400)
+        error_response(message: e.message, status: 400)
       end
 
       # 500 : Internal Server Error
@@ -31,7 +31,7 @@ module API
         if Rails.env.development?
           raise e
         else
-          error_response(message: "Internal server error", status: 500)
+          error_response(message: e.message, status: 500)
         end
       end
 
