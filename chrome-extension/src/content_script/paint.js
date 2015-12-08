@@ -24,7 +24,8 @@ $(function(){
     "width": "100%",
     "height": paint_area_height + "px",
     "overflow": "hidden",
-    "pointer-events": "none"
+    "pointer-events": "none",
+    "z-index": "1000"
   } ).on( "mousedown", event => {
     mousedowned = true;
     paint( event.pageX, event.pageY, 3 );
