@@ -22,7 +22,12 @@ module API
         params do
           use :attributes
         end
-        post '/' do
+        post '/', http_codes: [
+          [201, 'OK (saved data)', Entity::V1::Paint],
+          [400, 'Invalid parameter'],
+          [401, 'Unauthorized (Invalid API key)'],
+          [500, 'Internal Server Error']
+        ] do
           authenticate!
 
           normalize_url = Page.normalize_url(params[:url])
@@ -36,7 +41,7 @@ module API
               end
             end
             page.save
-            calc_points(page, painted_map)
+            paints = calc_points(page, painted_map)
           else
             domain = Domain.find_or_create_by(domain: normalize_url.host)
             page = Page.create({
@@ -44,8 +49,10 @@ module API
               painted_map: painted_map,
               domain_id: domain.id
             })
-            calc_points(page, painted_map)
+            paints = calc_points(page, painted_map)
           end
+
+          present paints, with: Entity::V1::Paint
         end
       end
     end
