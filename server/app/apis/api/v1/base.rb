@@ -36,6 +36,7 @@ module API
       end
 
       mount V1::Paints
+      mount V1::Pages
       add_swagger_documentation(
         api_version: 'v1',
         hide_format: true,
