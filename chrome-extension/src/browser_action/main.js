@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDom from "react-dom";
-require( "bootstrap" );
 
 var PaintModeButtonGroup = require( "./PaintModeButtonGroup.js" );
+var WeaponButtonGroup = require( "./WeaponButtonGroup.js" );
 var PostPaintDataButton = require( "./PostPaintDataButton.js" );
 
 class MainForm extends React.Component{
@@ -10,6 +10,7 @@ class MainForm extends React.Component{
     return (
       <div>
         <PaintModeButtonGroup mode={init_mode} />
+        <WeaponButtonGroup weapon={init_weapon} />
         <PostPaintDataButton api_server_url={env.api_server_url}
             api_key={env.api_key} current_url={current_url}/>
         <img id="loading" height="20px"
@@ -21,6 +22,7 @@ class MainForm extends React.Component{
 }
 
 var init_mode = "clear";
+var init_weapon = "bold";
 var current_url = "";
 var env = null;
 
