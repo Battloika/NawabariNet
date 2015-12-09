@@ -1,6 +1,7 @@
 module.exports = {
   entry: {
     browser_action: [
+      __dirname + "/src/browser_action/PaintModeForm.js",
       __dirname + "/src/browser_action/main.js"
     ],
     background: [

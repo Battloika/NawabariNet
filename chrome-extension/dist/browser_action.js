@@ -44,7 +44,8 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(2);
+	__webpack_require__(2);
+	module.exports = __webpack_require__(161);
 
 
 /***/ },
@@ -59,10 +60,6 @@
 	var _react = __webpack_require__(3);
 
 	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(160);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -81,7 +78,7 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PaintModeForm).call(this, props));
 
 	    _this.state = {
-	      mode: init_mode
+	      mode: props.mode
 	    };
 	    return _this;
 	  }
@@ -134,74 +131,7 @@
 	  return PaintModeForm;
 	})(_react2.default.Component);
 
-	var PostPaintDataButton = (function (_React$Component2) {
-	  _inherits(PostPaintDataButton, _React$Component2);
-
-	  function PostPaintDataButton() {
-	    _classCallCheck(this, PostPaintDataButton);
-
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(PostPaintDataButton).apply(this, arguments));
-	  }
-
-	  _createClass(PostPaintDataButton, [{
-	    key: "postPaintData",
-	    value: function postPaintData() {
-	      $.ajax({
-	        type: "POST",
-	        url: env.api_server_url + "api/v1/paints",
-	        dataType: "json",
-	        data: {
-	          api_key: env.api_key,
-	          url: current_url,
-	          painted_map: painted_data
-	        },
-	        success: function success(json) {
-	          console.log(json);
-	        },
-	        error: function error(err) {
-	          console.log(err);
-	        }
-	      });
-	    }
-	  }, {
-	    key: "render",
-	    value: function render() {
-	      return _react2.default.createElement(
-	        "button",
-	        { className: "btn btn-default", onClick: this.postPaintData.bind(this) },
-	        "塗り情報を送信する"
-	      );
-	    }
-	  }]);
-
-	  return PostPaintDataButton;
-	})(_react2.default.Component);
-
-	var init_mode = "clear";
-	var current_url = "";
-	var painted_data = [];
-	var env = null;
-
-	chrome.runtime.sendMessage({
-	  type: "get"
-	}, function (response) {
-	  init_mode = response.mode;
-	  current_url = response.url;
-
-	  for (var i = 0; i < 10; i++) {
-	    painted_data[i] = [];
-	    for (var j = 0; j < 10; j++) {
-	      painted_data[i][j] = 1;
-	    }
-	  }
-
-	  $.getJSON("env.json", function (json) {
-	    env = json;
-	    _reactDom2.default.render(_react2.default.createElement(PaintModeForm, null), document.getElementById("paint-mode"));
-
-	    _reactDom2.default.render(_react2.default.createElement(PostPaintDataButton, null), document.getElementById("post-paint-data"));
-	  });
-	});
+	module.exports = PaintModeForm;
 
 /***/ },
 /* 3 */
@@ -19845,6 +19775,122 @@
 	'use strict';
 
 	module.exports = __webpack_require__(5);
+
+/***/ },
+/* 161 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _react = __webpack_require__(3);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(160);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var PaintModeForm = __webpack_require__(2);
+
+	var MainForm = (function (_React$Component) {
+	  _inherits(MainForm, _React$Component);
+
+	  function MainForm() {
+	    _classCallCheck(this, MainForm);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(MainForm).apply(this, arguments));
+	  }
+
+	  _createClass(MainForm, [{
+	    key: "render",
+	    value: function render() {
+	      var mode = init_mode;
+
+	      return _react2.default.createElement(PaintModeForm, { mode: mode });
+	    }
+	  }]);
+
+	  return MainForm;
+	})(_react2.default.Component);
+
+	var PostPaintDataButton = (function (_React$Component2) {
+	  _inherits(PostPaintDataButton, _React$Component2);
+
+	  function PostPaintDataButton() {
+	    _classCallCheck(this, PostPaintDataButton);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(PostPaintDataButton).apply(this, arguments));
+	  }
+
+	  _createClass(PostPaintDataButton, [{
+	    key: "postPaintData",
+	    value: function postPaintData() {
+	      $.ajax({
+	        type: "POST",
+	        url: env.api_server_url + "api/v1/paints",
+	        dataType: "json",
+	        data: {
+	          api_key: env.api_key,
+	          url: current_url,
+	          painted_map: painted_data
+	        },
+	        success: function success(json) {
+	          console.log(json);
+	        },
+	        error: function error(err) {
+	          console.log(err);
+	        }
+	      });
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "button",
+	        { className: "btn btn-default", onClick: this.postPaintData.bind(this) },
+	        "塗り情報を送信する"
+	      );
+	    }
+	  }]);
+
+	  return PostPaintDataButton;
+	})(_react2.default.Component);
+
+	var init_mode = "clear";
+	var current_url = "";
+	var painted_data = [];
+	var env = null;
+
+	chrome.runtime.sendMessage({
+	  type: "get"
+	}, function (response) {
+	  init_mode = response.mode;
+	  current_url = response.url;
+
+	  for (var i = 0; i < 10; i++) {
+	    painted_data[i] = [];
+	    for (var j = 0; j < 10; j++) {
+	      painted_data[i][j] = 1;
+	    }
+	  }
+
+	  $.getJSON("env.json", function (json) {
+	    env = json;
+	    _reactDom2.default.render(_react2.default.createElement(MainForm, null), document.getElementById("paint-mode"));
+
+	    _reactDom2.default.render(_react2.default.createElement(PostPaintDataButton, null), document.getElementById("post-paint-data"));
+	  });
+	});
 
 /***/ }
 /******/ ]);
