@@ -27,6 +27,9 @@ describe Api do
           }
         end
 
+        before do
+          post path, JSON.dump(parameters), rack_env
+        end
         it_behaves_like('401 Unauthorized')
       end
 
@@ -54,6 +57,9 @@ describe Api do
           }
         end
 
+        before do
+          post path, JSON.dump(parameters), rack_env
+        end
         it_behaves_like('400 Bad Request')
       end
 
@@ -79,6 +85,9 @@ describe Api do
           }
         end
 
+        before do
+          post path, JSON.dump(parameters), rack_env
+        end
         it_behaves_like('201 Created')
       end
     end
