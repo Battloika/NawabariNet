@@ -14,6 +14,12 @@ class WeaponButtonGroup extends React.Component {
     } );
   }
 
+  useGaron() {
+    this.setState( {
+      weapon: "garon"
+    } );
+  }
+
   useBold() {
     this.setState( {
       weapon: "bold"
@@ -34,6 +40,10 @@ class WeaponButtonGroup extends React.Component {
         <button type="button" onClick={::this.useSushikora}
           className={this.state.weapon == "sushikora" ? selected_button : default_button}>
           スシコラ
+        </button>
+        <button type="button" onClick={::this.useGaron}
+          className={this.state.weapon == "garon" ? selected_button : default_button}>
+          ガロン
         </button>
         <button type="button" onClick={::this.useBold}
           className={this.state.weapon == "bold" ? selected_button : default_button}>

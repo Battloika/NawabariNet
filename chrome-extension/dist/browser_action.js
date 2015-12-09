@@ -19812,6 +19812,13 @@
 	      });
 	    }
 	  }, {
+	    key: "useGaron",
+	    value: function useGaron() {
+	      this.setState({
+	        weapon: "garon"
+	      });
+	    }
+	  }, {
 	    key: "useBold",
 	    value: function useBold() {
 	      this.setState({
@@ -19837,6 +19844,12 @@
 	          { type: "button", onClick: this.useSushikora.bind(this),
 	            className: this.state.weapon == "sushikora" ? selected_button : default_button },
 	          "スシコラ"
+	        ),
+	        _react2.default.createElement(
+	          "button",
+	          { type: "button", onClick: this.useGaron.bind(this),
+	            className: this.state.weapon == "garon" ? selected_button : default_button },
+	          "ガロン"
 	        ),
 	        _react2.default.createElement(
 	          "button",

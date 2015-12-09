@@ -72,6 +72,11 @@ $(function(){
       num: 3,
       variance: 100
     },
+    garon: {
+      interval: 300,
+      num: 1,
+      variance: 100
+    },
     bold: {
       interval: 20,
       num: 6,
@@ -102,6 +107,11 @@ $(function(){
       weapons_status[ weapon ].num,
       weapons_status[ weapon ].variance
     );
+    in_interval = true;
+    clearInterval( drawInterval );
+    drawInterval = window.setInterval( () => {
+      in_interval = false;
+    }, weapons_status[ weapon ].interval );
   } ).on( "mousemove", event => {
     if( mousedowned && !in_interval ){
       paint(
