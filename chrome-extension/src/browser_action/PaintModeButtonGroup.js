@@ -1,6 +1,6 @@
 import React from "react";
 
-class PaintModeForm extends React.Component {
+class PaintModeButtonGroup extends React.Component {
   constructor( props ) {
     super( props );
     this.state = {
@@ -48,4 +48,4 @@ class PaintModeForm extends React.Component {
   }
 }
 
-module.exports = PaintModeForm;
+module.exports = PaintModeButtonGroup;

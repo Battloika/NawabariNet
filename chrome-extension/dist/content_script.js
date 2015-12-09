@@ -45,12 +45,12 @@
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(163);
+	module.exports = __webpack_require__(177);
 
 
 /***/ },
 
-/***/ 163:
+/***/ 177:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -117,11 +117,30 @@
 	    sight: chrome.extension.getURL("images/sight.png")
 	  };
 
+	  var weapon = "sushikora";
+	  var weapons_status = {
+	    sushikora: {
+	      interval: 100,
+	      num: 3,
+	      variance: 100
+	    },
+	    garon: {
+	      interval: 300,
+	      num: 1,
+	      variance: 100
+	    },
+	    bold: {
+	      interval: 20,
+	      num: 6,
+	      variance: 300
+	    }
+	  };
+
 	  var mousedowned = false;
 	  var in_interval = false;
 	  var drawInterval = window.setInterval(function () {
 	    in_interval = false;
-	  }, 100);
+	  }, weapons_status[weapon].interval);
 
 	  $("body").append($("<div></div>", {
 	    "id": "effect-area"
@@ -134,10 +153,15 @@
 	    "z-index": "20000"
 	  }).on("mousedown", function (event) {
 	    mousedowned = true;
-	    paint(event.pageX, event.pageY, 3);
+	    paint(event.pageX, event.pageY, weapons_status[weapon].num, weapons_status[weapon].variance);
+	    in_interval = true;
+	    clearInterval(drawInterval);
+	    drawInterval = window.setInterval(function () {
+	      in_interval = false;
+	    }, weapons_status[weapon].interval);
 	  }).on("mousemove", function (event) {
 	    if (mousedowned && !in_interval) {
-	      paint(event.pageX, event.pageY, 5);
+	      paint(event.pageX, event.pageY, weapons_status[weapon].num, weapons_status[weapon].variance);
 	      in_interval = true;
 	    }
 	  }).on("mouseup", function () {
@@ -173,6 +197,10 @@
 	          "cursor": "url(" + image_urls.sight + "), crosshair"
 	        });
 	      }
+	    }
+
+	    if (request.type == "change_weapon") {
+	      weapon = request.weapon;
 	    }
 	  });
 	});
