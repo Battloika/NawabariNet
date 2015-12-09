@@ -18,7 +18,7 @@ module API
 
       # 404 : Not Found
       rescue_from ActiveRecord::RecordNotFound do |e|
-        error_response(message: e.message, status: 404)
+        rack_response({error: e.message}.to_json, 404)
       end
 
       # 400 : Bad Request
@@ -31,7 +31,7 @@ module API
         if Rails.env.development?
           raise e
         else
-          error_response(message: e.message, status: 500)
+          rack_response({error: e.message}.to_json, 500)
         end
       end
 
