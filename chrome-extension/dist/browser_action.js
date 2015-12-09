@@ -19823,7 +19823,7 @@
 	    value: function render() {
 	      chrome.runtime.sendMessage({
 	        type: "change_weapon",
-	        mode: this.state.weapon
+	        weapon: this.state.weapon
 	      });
 
 	      var default_button = "btn btn-default";
@@ -19995,7 +19995,7 @@
 	})(_react2.default.Component);
 
 	var init_mode = "clear";
-	var init_weapon = "bold";
+	var init_weapon = "sushikora";
 	var current_url = "";
 	var env = null;
 
@@ -20003,6 +20003,7 @@
 	  type: "get"
 	}, function (response) {
 	  init_mode = response.mode;
+	  init_weapon = response.weapon;
 	  current_url = response.url;
 
 	  $.getJSON("env.json", function (json) {

@@ -23,7 +23,7 @@ class WeaponButtonGroup extends React.Component {
   render() {
     chrome.runtime.sendMessage( {
       type: "change_weapon",
-      mode: this.state.weapon
+      weapon: this.state.weapon
     } );
 
     var default_button = "btn btn-default";

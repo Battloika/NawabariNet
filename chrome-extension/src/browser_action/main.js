@@ -22,7 +22,7 @@ class MainForm extends React.Component{
 }
 
 var init_mode = "clear";
-var init_weapon = "bold";
+var init_weapon = "sushikora";
 var current_url = "";
 var env = null;
 
@@ -30,6 +30,7 @@ chrome.runtime.sendMessage( {
   type: "get"
 }, response => {
   init_mode = response.mode;
+  init_weapon = response.weapon;
   current_url = response.url;
 
   $.getJSON( "env.json", json => {
