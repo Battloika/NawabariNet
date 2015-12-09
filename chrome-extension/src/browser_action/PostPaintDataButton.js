@@ -16,7 +16,9 @@ class PostPaintDataButton extends React.Component {
         painted_data[ i ][ j ] = 1;
     }
 
-    console.log(this.props);
+    $( "#loading" )
+      .attr( "src", "images/loading.gif" )
+      .fadeIn( 100 );
 
     $.ajax( {
       type: "POST",
@@ -29,9 +31,25 @@ class PostPaintDataButton extends React.Component {
       },
       success: function( json ){
         console.log( json );
+        $( "#loading" )
+          .attr( "src", "images/success.png" )
+          .delay( 1000 )
+          .fadeOut( 100 );
+        $( "#post-message" )
+          .text( "送信に成功しました" )
+          .css( "color", "green" )
+          .fadeIn( 100 )
+          .delay( 900 )
+          .fadeOut( 100 );
       },
       error: function( err ){
         console.log( err );
+        $( "#loading" )
+          .attr( "src", "images/failer.png" );
+        $( "#post-message" )
+          .css( "color", "red" )
+          .text( "送信に失敗しました" )
+          .fadeIn( 100 );
       }
     } );
   }
