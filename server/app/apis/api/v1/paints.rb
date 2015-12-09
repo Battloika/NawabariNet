@@ -2,10 +2,10 @@ module API
   module V1
     class Paints < Grape::API
       helpers do
-        def calc_points(page, painted_map)
+        def create_points(page, painted_map)
           # 塗った割合(%)をpointとする
           Paint.create({
-            point: (painted_map.flatten.count(1).to_f / painted_map.flatten.size.to_f * 100).round(1),
+            point: Paint.calc_points(painted_map),
             page_id: page.id
           })
         end
@@ -41,7 +41,7 @@ module API
               end
             end
             page.save
-            paints = calc_points(page, painted_map)
+            paints = create_points(page, painted_map)
           else
             domain = Domain.find_or_create_by(domain: normalize_url.host)
             page = Page.create({
@@ -49,7 +49,7 @@ module API
               painted_map: painted_map,
               domain_id: domain.id
             })
-            paints = calc_points(page, painted_map)
+            paints = create_points(page, painted_map)
           end
 
           present paints, with: Entity::V1::Paint
