@@ -29,7 +29,7 @@ $(function(){
         "left": ( window.innerWidth / 2 ) + "px",
         "width": ( ink_width / 5 ) + "px",
         "pointer-events": "none",
-        "z-index": "1000"
+        "z-index": "20000"
       } );
 
       $( "#effect-area" ).append( $img );
@@ -74,7 +74,7 @@ $(function(){
     "height": getPaintAreaHeight() + "px",
     "overflow": "hidden",
     "pointer-events": "none",
-    "z-index": "1000"
+    "z-index": "20000"
   } ).on( "mousedown", event => {
     mousedowned = true;
     paint( event.pageX, event.pageY, 3 );
