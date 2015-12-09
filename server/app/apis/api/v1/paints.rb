@@ -10,17 +10,21 @@ module API
           })
         end
 
-        params :attributes do
+        params :attributes_post do
           requires :api_key, type: String, desc: "API key."
           requires :url, type: ::Utils::Url, desc: "Page url.", documentation: { param_type: 'form', example: 'http://sample.com' }
           requires :painted_map, type: ::Utils::PaintedMap, desc: "Page painted_map.", documentation: { param_type: 'form', example: Array.new(10).map { Array.new(10).map { rand(2) } }.to_s }
+        end
+        params :attributes_get do
+          requires :api_key, type: String, desc: "API key."
+          requires :url, type: ::Utils::Url, desc: "Page url.", documentation: { example: 'http://sample.com' }
         end
       end
 
       resource :paints do
         desc 'POST /api/v1/paints'
         params do
-          use :attributes
+          use :attributes_post
         end
         post '/', http_codes: [
           [201, 'OK (saved data)', Entity::V1::Paint],
@@ -53,6 +57,28 @@ module API
           end
 
           present paints, with: Entity::V1::Paint
+        end
+
+        desc 'GET /api/v1/paints'
+        params do
+          use :attributes_get
+        end
+        get '/', http_codes: [
+          [200, 'Success', Entity::V1::PageWithTotalpoints],
+          [400, 'Invalid parameter'],
+          [401, 'Unauthorized (Invalid API key)'],
+          [500, 'Internal Server Error']
+        ] do
+          authenticate!
+
+          normalize_url = Page.normalize_url(params[:url].value)
+          page = Page.find_by(url: normalize_url.to_s)
+
+          if page
+            present page, with: Entity::V1::PageWithTotalpoints
+          else
+            { page_id: nil, url: normalize_url.to_s, painted_map: nil, total_points: nil }
+          end
         end
       end
     end

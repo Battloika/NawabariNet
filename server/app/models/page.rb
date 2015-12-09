@@ -7,4 +7,8 @@ class Page < ActiveRecord::Base
   def self.normalize_url(url)
     Addressable::URI.parse(NormalizeUrl.process(url))
   end
+
+  def calc_total_points
+    self.paints.inject(0.0) { |sum, paint| sum + paint.point }
+  end
 end
