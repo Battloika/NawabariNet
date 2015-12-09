@@ -66,6 +66,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'rspec-its'
   gem 'json_expressions'
+  gem 'factory_girl_rails'
 end
 
 group :development do

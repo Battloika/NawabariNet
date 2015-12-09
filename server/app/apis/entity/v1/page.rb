@@ -1,7 +1,7 @@
 module Entity
   module V1
     class Page < Grape::Entity
-      expose :id, documentation: { type: 'Integer' }
+      expose :id, as: :page_id, documentation: { type: 'Integer' }
       expose :url, documentation: { type: 'String' }
       expose :title, documentation: { type: 'String' }
       expose :painted_map, documentation: { type: Utils::PaintedMap }
