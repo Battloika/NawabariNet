@@ -67,22 +67,10 @@ describe Api do
       context 'success' do
         let (:result) do
           {
-            paint_id:      Fixnum,
-            point:   Paint.calc_points(painted_map),
-            created_at: /\d{4}\-\d{2}\-\d{2}T\d{2}:\d{2}:\d{2}\.\d+\+09:00/,
-            updated_at: /\d{4}\-\d{2}\-\d{2}T\d{2}:\d{2}:\d{2}\.\d+\+09:00/,
-            page: {
-              page_id: Fixnum,
-              url: Page.normalize_url(url).to_s,
-              title: nil,
-              painted_map: painted_map,
-              created_at: /\d{4}\-\d{2}\-\d{2}T\d{2}:\d{2}:\d{2}\.\d+\+09:00/,
-              updated_at: /\d{4}\-\d{2}\-\d{2}T\d{2}:\d{2}:\d{2}\.\d+\+09:00/,
-              domain: {
-                domain_id: Fixnum,
-                domain: Page.normalize_url(url).host
-              }
-            }
+            page_id: Fixnum,
+            url: Page.normalize_url(url).to_s,
+            paint_id: Fixnum,
+            point: Paint.calc_points(painted_map),
           }
         end
 

@@ -27,7 +27,7 @@ module API
           use :attributes_post
         end
         post '/', http_codes: [
-          [201, 'OK (saved data)', Entity::V1::Paint],
+          [201, 'OK (saved data)', Entity::V1::PageAndPaint],
           [400, 'Invalid parameter'],
           [401, 'Unauthorized (Invalid API key)'],
           [500, 'Internal Server Error']
@@ -56,7 +56,7 @@ module API
             paints = create_points(page, painted_map)
           end
 
-          present paints, with: Entity::V1::Paint
+          present paints, with: Entity::V1::PageAndPaint
         end
 
         desc 'GET /api/v1/paints'
