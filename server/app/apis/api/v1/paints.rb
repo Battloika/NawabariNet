@@ -3,7 +3,6 @@ module API
     class Paints < Grape::API
       helpers do
         def create_points(page, painted_map)
-          # 塗った割合(%)をpointとする
           Paint.create({
             point: Paint.calc_points(painted_map),
             page_id: page.id
