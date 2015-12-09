@@ -56,49 +56,17 @@
 	"use strict";
 
 	$(function () {
-	  var _this2 = this;
+	  var _this = this;
 
-	  var image_urls = {
-	    red_ink: chrome.extension.getURL("images/red_ink.png"),
-	    blue_ink: chrome.extension.getURL("images/blue_ink.png"),
-	    sight: chrome.extension.getURL("images/sight.png")
+	  var getPaintAreaHeight = function getPaintAreaHeight() {
+	    var paint_area_height = document.documentElement.scrollHeight || document.body.scrollHeight;
+
+	    if (paint_area_height < $(window).height()) paint_area_height = $(window).height();
+
+	    return paint_area_height;
 	  };
 
-	  var mousedowned = false;
-	  var in_interval = false;
-	  var drawInterval = window.setInterval(function () {
-	    in_interval = false;
-	  }, 100);
-
-	  var paint_area_height = $("body").height();
-	  if (paint_area_height < $(window).height()) paint_area_height = $(window).height();
-
-	  $("body").append($("<div></div>", {
-	    "id": "effect-area"
-	  }).css({
-	    "position": "absolute",
-	    "top": "0",
-	    "left": "0",
-	    "width": "100%",
-	    "height": paint_area_height + "px",
-	    "overflow": "hidden",
-	    "pointer-events": "none",
-	    "z-index": "1000"
-	  }).on("mousedown", function (event) {
-	    mousedowned = true;
-	    paint(event.pageX, event.pageY, 3);
-	  }).on("mousemove", function (event) {
-	    if (mousedowned && !in_interval) {
-	      paint(event.pageX, event.pageY, 5);
-	      in_interval = true;
-	    }
-	  }).on("mouseup", function () {
-	    mousedowned = false;
-	  }));
-
-	  function paint(pos_x, pos_y, num, variance, fadeout) {
-	    var _this = this;
-
+	  var paint = function paint(pos_x, pos_y, num, variance, fadeout) {
 	    if (!pos_x) pos_x = 100;
 	    if (!pos_y) pos_y = 100;
 	    if (!num) num = 10;
@@ -135,7 +103,46 @@
 	        "width": ink_width + "px"
 	      }, 100);
 	    }
-	  }
+	  };
+
+	  var image_urls = {
+	    red_ink: chrome.extension.getURL("images/red_ink.png"),
+	    blue_ink: chrome.extension.getURL("images/blue_ink.png"),
+	    sight: chrome.extension.getURL("images/sight.png")
+	  };
+
+	  var mousedowned = false;
+	  var in_interval = false;
+	  var drawInterval = window.setInterval(function () {
+	    in_interval = false;
+	  }, 100);
+
+	  $("body").append($("<div></div>", {
+	    "id": "effect-area"
+	  }).css({
+	    "position": "absolute",
+	    "top": "0",
+	    "left": "0",
+	    "width": "100%",
+	    "height": getPaintAreaHeight() + "px",
+	    "overflow": "hidden",
+	    "pointer-events": "none",
+	    "z-index": "1000"
+	  }).on("mousedown", function (event) {
+	    mousedowned = true;
+	    paint(event.pageX, event.pageY, 3);
+	  }).on("mousemove", function (event) {
+	    if (mousedowned && !in_interval) {
+	      paint(event.pageX, event.pageY, 5);
+	      in_interval = true;
+	    }
+	  }).on("mouseup", function () {
+	    mousedowned = false;
+	  }));
+
+	  $(window).scroll(function () {
+	    $("#effect-area").css("height", getPaintAreaHeight() + "px");
+	  });
 
 	  chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	    if (request.type == "get_url") {
@@ -146,7 +153,7 @@
 	    if (request.type == "change_mode") {
 	      if (request.mode == "clear") {
 	        $("#effect-area .ink").fadeOut(1000).queue(function () {
-	          _this2.remove();
+	          _this.remove();
 	        });
 	        $("#effect-area").css({
 	          "pointer-events": "none",

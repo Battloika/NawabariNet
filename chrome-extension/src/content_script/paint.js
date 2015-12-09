@@ -1,45 +1,14 @@
 $(function(){
-  var image_urls = {
-    red_ink: chrome.extension.getURL( "images/red_ink.png" ),
-    blue_ink: chrome.extension.getURL( "images/blue_ink.png" ),
-    sight: chrome.extension.getURL( "images/sight.png" )
-  };
+  const getPaintAreaHeight = () =>{
+    var paint_area_height = document.documentElement.scrollHeight || document.body.scrollHeight;
 
-  var mousedowned = false;
-  var in_interval = false;
-  var drawInterval = window.setInterval( () => {
-    in_interval = false;
-  }, 100);
+    if( paint_area_height < $( window ).height() )
+      paint_area_height = $( window ).height();
 
-  var paint_area_height = $( "body" ).height();
-  if( paint_area_height < $( window ).height() )
-    paint_area_height = $( window ).height();
+    return paint_area_height;
+  }
 
-  $( "body" ).append( $( "<div></div>", {
-    "id": "effect-area"
-  } ).css( {
-    "position": "absolute",
-    "top": "0",
-    "left": "0",
-    "width": "100%",
-    "height": paint_area_height + "px",
-    "overflow": "hidden",
-    "pointer-events": "none",
-    "z-index": "1000"
-  } ).on( "mousedown", event => {
-    mousedowned = true;
-    paint( event.pageX, event.pageY, 3 );
-  } ).on( "mousemove", event => {
-    if( mousedowned && !in_interval ){
-      paint( event.pageX, event.pageY, 5 );
-      in_interval = true;
-    }
-  } ).on( "mouseup", () => {
-    mousedowned = false;
-  } ) );
-
-
-  function paint( pos_x, pos_y, num, variance, fadeout ){
+  const paint = ( pos_x, pos_y, num, variance, fadeout ) => {
     if( !pos_x ) pos_x = 100;
     if( !pos_y ) pos_y = 100;
     if( !num ) num = 10;
@@ -82,6 +51,45 @@ $(function(){
         }, 100 );
     }
   }
+
+  var image_urls = {
+    red_ink: chrome.extension.getURL( "images/red_ink.png" ),
+    blue_ink: chrome.extension.getURL( "images/blue_ink.png" ),
+    sight: chrome.extension.getURL( "images/sight.png" )
+  };
+
+  var mousedowned = false;
+  var in_interval = false;
+  var drawInterval = window.setInterval( () => {
+    in_interval = false;
+  }, 100);
+
+  $( "body" ).append( $( "<div></div>", {
+    "id": "effect-area"
+  } ).css( {
+    "position": "absolute",
+    "top": "0",
+    "left": "0",
+    "width": "100%",
+    "height": getPaintAreaHeight() + "px",
+    "overflow": "hidden",
+    "pointer-events": "none",
+    "z-index": "1000"
+  } ).on( "mousedown", event => {
+    mousedowned = true;
+    paint( event.pageX, event.pageY, 3 );
+  } ).on( "mousemove", event => {
+    if( mousedowned && !in_interval ){
+      paint( event.pageX, event.pageY, 5 );
+      in_interval = true;
+    }
+  } ).on( "mouseup", () => {
+    mousedowned = false;
+  } ) );
+
+  $( window ).scroll( () => {
+    $( "#effect-area" ).css( "height", getPaintAreaHeight() + "px" );
+  } );
 
   chrome.runtime.onMessage.addListener( ( request, sender, sendResponse ) => {
     if( request.type == "get_url" ){
