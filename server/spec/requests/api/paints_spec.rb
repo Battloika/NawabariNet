@@ -30,6 +30,21 @@ describe Api do
         it_behaves_like('401 Unauthorized')
       end
 
+      context 'when url is invalid' do
+        let (:url) { 'InvalidUrl' }
+
+        let (:result) do
+          {
+            error: 'url is invalid'
+          }
+        end
+
+        before do
+          post path, JSON.dump(parameters), rack_env
+        end
+        it_behaves_like('400 Bad Request')
+      end
+
       context 'when pointed_map is invalid' do
         let (:painted_map) { Array.new(10).map { Array.new(10).map { rand(3) } } }
 
