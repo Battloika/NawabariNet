@@ -3,19 +3,17 @@ require "rails_helper"
 describe Api do
   include ApiHelper
 
-  describe Paint do
-    let (:path) { '/api/v1/paints' }
+  describe Page do
+    let (:path) { '/api/v1/pages' }
     let (:api_key) { ENV.fetch('API_KEY') }
     let (:url) { 'http://hoge.com/' }
     let (:rack_env) { { "CONTENT_TYPE" => "application/json" } }
 
-    describe 'POST /api/v1/paints' do
-      let (:painted_map) { Array.new(10).map { Array.new(10).map { rand(2) } } }
+    describe 'GET /api/v1/pages' do
       let (:parameters) do
         {
           api_key: api_key,
-          url: url,
-          painted_map: painted_map
+          url: url
         }
       end
 
@@ -29,7 +27,7 @@ describe Api do
         end
 
         before do
-          post path, JSON.dump(parameters), rack_env
+          get path, parameters, rack_env
         end
         it_behaves_like('401 Unauthorized')
       end
@@ -44,40 +42,45 @@ describe Api do
         end
 
         before do
-          post path, JSON.dump(parameters), rack_env
+          get path, parameters, rack_env
         end
         it_behaves_like('400 Bad Request')
       end
 
-      context 'when pointed_map is invalid' do
-        let (:painted_map) { Array.new(10).map { Array.new(10).map { rand(3) } } }
-
+      context 'success_new_page' do
         let (:result) do
           {
-            error: 'painted_map is invalid'
+            page_id: nil,
+            url: Page.normalize_url(url),
+            painted_map: nil,
+            total_points: nil
           }
         end
 
         before do
-          post path, JSON.dump(parameters), rack_env
+          get path, parameters, rack_env
         end
-        it_behaves_like('400 Bad Request')
+        it_behaves_like('200 Success')
       end
 
       context 'success' do
+        let (:domain) { create(:domain) }
+        let (:page) { domain.pages[0] }
+        let (:url) { page.url }
+        let (:total_points) { page.calc_total_points }
         let (:result) do
           {
-            page_id: Fixnum,
-            url: Page.normalize_url(url).to_s,
-            paint_id: Fixnum,
-            point: Paint.calc_points(painted_map),
+            page_id: page.id,
+            url: page.url,
+            painted_map: page.painted_map,
+            total_points: total_points
           }
         end
 
         before do
-          post path, JSON.dump(parameters), rack_env
+          get path, parameters, rack_env
         end
-        it_behaves_like('201 Created')
+        it_behaves_like('200 Success')
       end
     end
   end
