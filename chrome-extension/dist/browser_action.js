@@ -19823,8 +19823,8 @@
 	        },
 	        success: function success(json) {
 	          console.log(json);
-	          $("#loading").attr("src", "images/success.png").delay(1000).fadeOut(100);
-	          $("#post-message").text("送信に成功しました").css("color", "green").fadeIn(100).delay(900).fadeOut(100);
+	          $("#loading").attr("src", "images/success.png").delay(2000).fadeOut(100);
+	          $("#post-message").text("送信に成功しました").css("color", "green").fadeIn(100).delay(1900).fadeOut(100);
 	        },
 	        error: function error(err) {
 	          console.log(err);

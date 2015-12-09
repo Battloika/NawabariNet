@@ -33,13 +33,13 @@ class PostPaintDataButton extends React.Component {
         console.log( json );
         $( "#loading" )
           .attr( "src", "images/success.png" )
-          .delay( 1000 )
+          .delay( 2000 )
           .fadeOut( 100 );
         $( "#post-message" )
           .text( "送信に成功しました" )
           .css( "color", "green" )
           .fadeIn( 100 )
-          .delay( 900 )
+          .delay( 1900 )
           .fadeOut( 100 );
       },
       error: function( err ){
