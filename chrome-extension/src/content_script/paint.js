@@ -1,11 +1,18 @@
 $(function(){
-  const getPaintAreaHeight = () =>{
+  const updatePaintAreaSize = () =>{
     var paint_area_height = document.documentElement.scrollHeight || document.body.scrollHeight;
+    var paint_area_width = document.documentElement.scrollWidth || document.body.scrollWidth;
 
     if( paint_area_height < $( window ).height() )
       paint_area_height = $( window ).height();
 
-    return paint_area_height;
+    if( paint_area_width < $( window ).width() )
+      paint_area_width = $( window ).width();
+
+    $( "#effect-area" ).css( {
+      "height": paint_area_height + "px",
+      "width": paint_area_width + "px"
+    } );
   }
 
   const paint = ( pos_x, pos_y, num, variance, fadeout ) => {
@@ -70,8 +77,6 @@ $(function(){
     "position": "absolute",
     "top": "0",
     "left": "0",
-    "width": "100%",
-    "height": getPaintAreaHeight() + "px",
     "overflow": "hidden",
     "pointer-events": "none",
     "z-index": "20000"
@@ -87,8 +92,10 @@ $(function(){
     mousedowned = false;
   } ) );
 
+  updatePaintAreaSize();
+
   $( window ).scroll( () => {
-    $( "#effect-area" ).css( "height", getPaintAreaHeight() + "px" );
+    updatePaintAreaSize();
   } );
 
   chrome.runtime.onMessage.addListener( ( request, sender, sendResponse ) => {
@@ -100,8 +107,8 @@ $(function(){
     if( request.type == "change_mode" ){
       if( request.mode == "clear" ){
         $( "#effect-area .ink" )
-            .fadeOut( 1000 ).queue( () => {
-              this.remove();
+            .fadeOut( 1000, () => {
+              $( "#effect-area .ink" ).remove();
             } );
         $( "#effect-area" ).css( {
           "pointer-events": "none",

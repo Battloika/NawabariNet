@@ -58,12 +58,18 @@
 	$(function () {
 	  var _this = this;
 
-	  var getPaintAreaHeight = function getPaintAreaHeight() {
+	  var updatePaintAreaSize = function updatePaintAreaSize() {
 	    var paint_area_height = document.documentElement.scrollHeight || document.body.scrollHeight;
+	    var paint_area_width = document.documentElement.scrollWidth || document.body.scrollWidth;
 
 	    if (paint_area_height < $(window).height()) paint_area_height = $(window).height();
 
-	    return paint_area_height;
+	    if (paint_area_width < $(window).width()) paint_area_width = $(window).width();
+
+	    $("#effect-area").css({
+	      "height": paint_area_height + "px",
+	      "width": paint_area_width + "px"
+	    });
 	  };
 
 	  var paint = function paint(pos_x, pos_y, num, variance, fadeout) {
@@ -123,8 +129,6 @@
 	    "position": "absolute",
 	    "top": "0",
 	    "left": "0",
-	    "width": "100%",
-	    "height": getPaintAreaHeight() + "px",
 	    "overflow": "hidden",
 	    "pointer-events": "none",
 	    "z-index": "20000"
@@ -140,8 +144,10 @@
 	    mousedowned = false;
 	  }));
 
+	  updatePaintAreaSize();
+
 	  $(window).scroll(function () {
-	    $("#effect-area").css("height", getPaintAreaHeight() + "px");
+	    updatePaintAreaSize();
 	  });
 
 	  chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
@@ -152,8 +158,8 @@
 
 	    if (request.type == "change_mode") {
 	      if (request.mode == "clear") {
-	        $("#effect-area .ink").fadeOut(1000).queue(function () {
-	          _this.remove();
+	        $("#effect-area .ink").fadeOut(1000, function () {
+	          $("#effect-area .ink").remove();
 	        });
 	        $("#effect-area").css({
 	          "pointer-events": "none",
