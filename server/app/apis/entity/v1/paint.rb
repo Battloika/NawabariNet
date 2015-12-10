@@ -2,7 +2,7 @@ module Entity
   module V1
     class Paint < Grape::Entity
       expose :id, as: :paint_id, documentation: { type: 'Integer', desc: 'Paint ID' }
-      expose :point, documentation: { type: 'Float' }
+      expose :score, documentation: { type: 'Integer' }
       expose :created_at, documentation: { type: 'String' }
       expose :updated_at, documentation: { type: 'String' }
 

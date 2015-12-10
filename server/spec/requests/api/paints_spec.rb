@@ -7,15 +7,17 @@ describe Api do
     let (:path) { '/api/v1/paints' }
     let (:api_key) { ENV.fetch('API_KEY') }
     let (:url) { 'http://hoge.com/' }
+    let (:title) { 'page title' }
+    let (:score) { 100 }
     let (:rack_env) { { "CONTENT_TYPE" => "application/json" } }
 
     describe 'POST /api/v1/paints' do
-      let (:painted_map) { Array.new(10).map { Array.new(10).map { rand(2) } } }
       let (:parameters) do
         {
           api_key: api_key,
           url: url,
-          painted_map: painted_map
+          title: title,
+          score: score
         }
       end
 
@@ -49,12 +51,12 @@ describe Api do
         it_behaves_like('400 Bad Request')
       end
 
-      context 'when pointed_map is invalid' do
-        let (:painted_map) { Array.new(10).map { Array.new(10).map { rand(3) } } }
+      context 'when score is invalid' do
+        let (:score) { -1 }
 
         let (:result) do
           {
-            error: 'painted_map is invalid'
+            error: 'score is invalid'
           }
         end
 
@@ -64,13 +66,29 @@ describe Api do
         it_behaves_like('400 Bad Request')
       end
 
+      context 'success when score is string' do
+        let (:score) { '100' }
+
+        let (:result) do
+          {
+            page_id: Fixnum,
+            url: Page.normalize_url(url).to_s,
+            paint_id: Fixnum
+          }
+        end
+
+        before do
+          post path, JSON.dump(parameters), rack_env
+        end
+        it_behaves_like('201 Created')
+      end
+
       context 'success' do
         let (:result) do
           {
             page_id: Fixnum,
             url: Page.normalize_url(url).to_s,
-            paint_id: Fixnum,
-            point: Paint.calc_points(painted_map),
+            paint_id: Fixnum
           }
         end
 
