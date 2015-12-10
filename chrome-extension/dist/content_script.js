@@ -45,12 +45,12 @@
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(177);
+	module.exports = __webpack_require__(164);
 
 
 /***/ },
 
-/***/ 177:
+/***/ 164:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -93,7 +93,7 @@
 	        "left": window.innerWidth / 2 + "px",
 	        "width": ink_width / 5 + "px",
 	        "pointer-events": "none",
-	        "z-index": "20000"
+	        "z-index": "2147483647"
 	      });
 
 	      $("#effect-area").append($img);
@@ -150,7 +150,7 @@
 	    "left": "0",
 	    "overflow": "hidden",
 	    "pointer-events": "none",
-	    "z-index": "20000"
+	    "z-index": "2147483647"
 	  }).on("mousedown", function (event) {
 	    mousedowned = true;
 	    paint(event.pageX, event.pageY, weapons_status[weapon].num, weapons_status[weapon].variance);

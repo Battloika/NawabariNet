@@ -36,7 +36,7 @@ $(function(){
         "left": ( window.innerWidth / 2 ) + "px",
         "width": ( ink_width / 5 ) + "px",
         "pointer-events": "none",
-        "z-index": "20000"
+        "z-index": "2147483647"
       } );
 
       $( "#effect-area" ).append( $img );
@@ -98,7 +98,7 @@ $(function(){
     "left": "0",
     "overflow": "hidden",
     "pointer-events": "none",
-    "z-index": "20000"
+    "z-index": "2147483647"
   } ).on( "mousedown", event => {
     mousedowned = true;
     paint(
