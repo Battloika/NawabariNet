@@ -7,6 +7,7 @@ describe Api do
     let (:path) { '/api/v1/paints' }
     let (:api_key) { ENV.fetch('API_KEY') }
     let (:url) { 'http://hoge.com/' }
+    let (:title) { 'page title' }
     let (:rack_env) { { "CONTENT_TYPE" => "application/json" } }
 
     describe 'POST /api/v1/paints' do
@@ -16,6 +17,7 @@ describe Api do
           api_key: api_key,
           url: url,
           painted_map: painted_map
+          title: title,
         }
       end
 

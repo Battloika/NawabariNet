@@ -13,6 +13,7 @@ module API
           requires :api_key, type: String, desc: "API key."
           requires :url, type: ::Utils::Url, desc: "Page url.", documentation: { param_type: 'form', example: 'http://sample.com' }
           requires :painted_map, type: ::Utils::PaintedMap, desc: "Page painted_map.", documentation: { param_type: 'form', example: Array.new(10).map { Array.new(10).map { rand(2) } }.to_s }
+          optional :title, type: String, desc: "Page title.", documentation: { example: 'page title' }
         end
       end
 
@@ -46,6 +47,7 @@ module API
             page = Page.create({
               url: normalize_url.to_s,
               painted_map: painted_map,
+              title: params[:title],
               domain_id: domain.id
             })
             paints = create_points(page, painted_map)
