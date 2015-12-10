@@ -14,7 +14,7 @@ module API
           use :attributes
         end
         get '/', http_codes: [
-          [200, 'Success', Entity::V1::PageWithTotalpoints],
+          [200, 'Success', Entity::V1::PageWithTotalscores],
           [400, 'Invalid parameter'],
           [401, 'Unauthorized (Invalid API key)'],
           [500, 'Internal Server Error']
@@ -25,9 +25,9 @@ module API
           page = Page.find_by(url: normalize_url.to_s)
 
           if page
-            present page, with: Entity::V1::PageWithTotalpoints
+            present page, with: Entity::V1::PageWithTotalscores
           else
-            { page_id: nil, url: normalize_url.to_s, painted_map: nil, total_points: nil }
+            { page_id: nil, url: normalize_url.to_s, total_scores: nil }
           end
         end
       end

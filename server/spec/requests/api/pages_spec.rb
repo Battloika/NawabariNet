@@ -52,8 +52,7 @@ describe Api do
           {
             page_id: nil,
             url: Page.normalize_url(url),
-            painted_map: nil,
-            total_points: nil
+            total_scores: nil
           }
         end
 
@@ -67,13 +66,12 @@ describe Api do
         let (:domain) { create(:domain) }
         let (:page) { domain.pages[0] }
         let (:url) { page.url }
-        let (:total_points) { page.calc_total_points }
+        let (:total_scores) { page.calc_total_scores }
         let (:result) do
           {
             page_id: page.id,
             url: page.url,
-            painted_map: page.painted_map,
-            total_points: total_points
+            total_scores: total_scores
           }
         end
 

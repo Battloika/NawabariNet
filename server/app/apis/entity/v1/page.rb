@@ -4,7 +4,6 @@ module Entity
       expose :id, as: :page_id, documentation: { type: 'Integer' }
       expose :url, documentation: { type: 'String' }
       expose :title, documentation: { type: 'String' }
-      expose :painted_map, documentation: { type: Utils::PaintedMap }
       expose :created_at, documentation: { type: 'String' }
       expose :updated_at, documentation: { type: 'String' }
 

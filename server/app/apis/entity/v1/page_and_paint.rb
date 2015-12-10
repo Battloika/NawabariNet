@@ -1,6 +1,7 @@
 module Entity
   module V1
     class PageAndPaint < Entity::V1::Paint
+      unexpose :score
       unexpose :created_at
       unexpose :updated_at
       unexpose :page
