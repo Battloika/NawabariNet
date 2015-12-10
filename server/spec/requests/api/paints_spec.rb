@@ -66,6 +66,23 @@ describe Api do
         it_behaves_like('400 Bad Request')
       end
 
+      context 'success when score is string' do
+        let (:score) { '100' }
+
+        let (:result) do
+          {
+            page_id: Fixnum,
+            url: Page.normalize_url(url).to_s,
+            paint_id: Fixnum
+          }
+        end
+
+        before do
+          post path, JSON.dump(parameters), rack_env
+        end
+        it_behaves_like('201 Created')
+      end
+
       context 'success' do
         let (:result) do
           {
