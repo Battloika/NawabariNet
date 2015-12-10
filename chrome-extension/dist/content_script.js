@@ -56,8 +56,6 @@
 	"use strict";
 
 	$(function () {
-	  var _this = this;
-
 	  var updatePaintAreaSize = function updatePaintAreaSize() {
 	    var paint_area_height = document.documentElement.scrollHeight || document.body.scrollHeight;
 	    var paint_area_width = document.documentElement.scrollWidth || document.body.scrollWidth;
@@ -98,8 +96,17 @@
 
 	      $("#effect-area").append($img);
 
-	      if (fadeout) $img.fadeIn(100).delay(500).fadeOut(2000).queue(function () {
-	        _this.remove();
+	      if (fadeout) $img.animate({
+	        "top": pos_y - ink_width / 2 + variance_radius * Math.sin(variance_radian) + ink_width / 2 + "px",
+	        "left": pos_x - ink_width / 2 + variance_radius * Math.cos(variance_radian) + ink_width / 2 + "px"
+	      }, 300).animate({
+	        "top": pos_y - ink_width / 2 + variance_radius * Math.sin(variance_radian) + "px",
+	        "left": pos_x - ink_width / 2 + variance_radius * Math.cos(variance_radian) + "px",
+	        "width": ink_width + "px"
+	      }, 100, function () {
+	        hideHitDom($img.position().left, $img.position().top);
+	      }).delay(500).fadeOut(2000).queue(function () {
+	        this.remove();
 	      });else $img.animate({
 	        "top": pos_y - ink_width / 2 + variance_radius * Math.sin(variance_radian) + ink_width / 2 + "px",
 	        "left": pos_x - ink_width / 2 + variance_radius * Math.cos(variance_radian) + ink_width / 2 + "px"
@@ -107,8 +114,39 @@
 	        "top": pos_y - ink_width / 2 + variance_radius * Math.sin(variance_radian) + "px",
 	        "left": pos_x - ink_width / 2 + variance_radius * Math.cos(variance_radian) + "px",
 	        "width": ink_width + "px"
-	      }, 100);
+	      }, 100, function () {
+	        hideHitDom($img.position().left, $img.position().top);
+	      });
 	    }
+	  };
+
+	  var dom_id = 0;
+	  var targets = [];
+	  $("body *:not( script )").addClass(function () {
+	    dom_id++;
+	    return "nawabari-target nawabari-target-id-" + dom_id;
+	  }).each(function () {
+	    if ($(this).children().length == 0 && $(this).height() != 0 && $(this).width()) {
+	      targets.push({
+	        $dom: $(this),
+	        x: $(this).offset().left,
+	        y: $(this).offset().top,
+	        width: $(this).width(),
+	        height: $(this).height()
+	      });
+	    }
+	  });
+
+	  var hideHitDom = function hideHitDom(pos_x, pos_y) {
+	    console.log(pos_x, pos_y);
+	    for (var i = 0; i < targets.length; i++) {
+	      var target = targets[i];
+	      if (target && target.x - 30 < pos_x && target.x + target.width + 30 > pos_x && target.y - 30 < pos_y && target.y + target.height + 30 > pos_y) {
+	        target.$dom.hide();
+	        targets.splice(i, 1);
+	        i--;
+	      }
+	    };
 	  };
 
 	  var image_urls = {
@@ -153,7 +191,7 @@
 	    "z-index": "2147483647"
 	  }).on("mousedown", function (event) {
 	    mousedowned = true;
-	    paint(event.pageX, event.pageY, weapons_status[weapon].num, weapons_status[weapon].variance);
+	    paint(event.pageX, event.pageY, weapons_status[weapon].num, weapons_status[weapon].variance, true);
 	    in_interval = true;
 	    clearInterval(drawInterval);
 	    drawInterval = window.setInterval(function () {
@@ -161,7 +199,7 @@
 	    }, weapons_status[weapon].interval);
 	  }).on("mousemove", function (event) {
 	    if (mousedowned && !in_interval) {
-	      paint(event.pageX, event.pageY, weapons_status[weapon].num, weapons_status[weapon].variance);
+	      paint(event.pageX, event.pageY, weapons_status[weapon].num, weapons_status[weapon].variance, true);
 	      in_interval = true;
 	    }
 	  }).on("mouseup", function () {

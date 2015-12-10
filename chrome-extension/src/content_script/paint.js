@@ -42,9 +42,17 @@ $(function(){
       $( "#effect-area" ).append( $img );
 
       if( fadeout )
-        $img.fadeIn( 100 )
-            .delay( 500 )
-            .fadeOut( 2000 ).queue( () => {
+        $img.animate( {
+          "top": ( pos_y - ink_width / 2 + variance_radius * Math.sin( variance_radian ) + ink_width / 2 ) + "px",
+          "left": ( pos_x - ink_width / 2 + variance_radius * Math.cos( variance_radian ) + ink_width / 2 )  + "px"
+        }, 300 ).animate( {
+          "top": ( pos_y - ink_width / 2 + variance_radius * Math.sin( variance_radian ) ) + "px",
+          "left": ( pos_x - ink_width / 2 + variance_radius * Math.cos( variance_radian ) )  + "px",
+          "width": ink_width + "px",
+        }, 100, () => {
+          hideHitDom( $img.position().left, $img.position().top );
+        } ).delay( 500 )
+            .fadeOut( 2000 ).queue( function(){
               this.remove();
             } );
       else
@@ -55,8 +63,43 @@ $(function(){
           "top": ( pos_y - ink_width / 2 + variance_radius * Math.sin( variance_radian ) ) + "px",
           "left": ( pos_x - ink_width / 2 + variance_radius * Math.cos( variance_radian ) )  + "px",
           "width": ink_width + "px",
-        }, 100 );
+        }, 100, () => {
+          hideHitDom( $img.position().left, $img.position().top );
+        } );
     }
+  }
+
+  var dom_id = 0;
+  var targets = [];
+  $( "body *:not( script )" ).addClass( () => {
+    dom_id ++;
+    return "nawabari-target nawabari-target-id-" + dom_id;
+  } ).each( function(){
+    if( $( this ).children().length == 0 && $( this ).height() != 0 && $( this ).width() ){
+      targets.push( {
+        $dom: $( this ),
+        x: $( this ).offset().left,
+        y: $( this ).offset().top,
+        width: $( this ).width(),
+        height: $( this ).height()
+      } );
+    }
+  } );
+
+  const hideHitDom = ( pos_x, pos_y ) => {
+    console.log( pos_x, pos_y );
+    for( var i = 0 ; i < targets.length ; i++ ){
+      var target = targets[ i ];
+      if( target &&
+          ( target.x - 30 < pos_x ) &&
+          ( target.x + target.width + 30 > pos_x ) &&
+          ( target.y - 30 < pos_y ) &&
+          ( target.y + target.height + 30 > pos_y ) ){
+        target.$dom.hide();
+        targets.splice( i, 1 );
+        i--;
+      }
+    };
   }
 
   var image_urls = {
@@ -105,7 +148,8 @@ $(function(){
       event.pageX,
       event.pageY,
       weapons_status[ weapon ].num,
-      weapons_status[ weapon ].variance
+      weapons_status[ weapon ].variance,
+      true
     );
     in_interval = true;
     clearInterval( drawInterval );
@@ -118,7 +162,8 @@ $(function(){
         event.pageX,
         event.pageY,
         weapons_status[ weapon ].num,
-        weapons_status[ weapon ].variance
+        weapons_status[ weapon ].variance,
+        true
       );
       in_interval = true;
     }
