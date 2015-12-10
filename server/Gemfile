@@ -45,6 +45,8 @@ gem 'oj'
 gem 'normalize_url'
 gem 'addressable', require: 'addressable/uri'
 
+gem 'devise'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   #gem 'byebug'

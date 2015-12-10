@@ -44,6 +44,7 @@ GEM
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
+    bcrypt (3.1.10)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -81,6 +82,13 @@ GEM
     debug_inspector (0.0.2)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
+    devise (3.5.2)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 3.2.6, < 5)
+      responders
+      thread_safe (~> 0.1)
+      warden (~> 1.2.3)
     diff-lcs (1.2.5)
     dotenv (2.0.2)
     dotenv-rails (2.0.2)
@@ -154,6 +162,7 @@ GEM
     normalize_url (0.0.6)
       addressable (~> 2.3)
     oj (2.13.1)
+    orm_adapter (0.5.0)
     pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -210,6 +219,8 @@ GEM
     rake (10.4.2)
     rdoc (4.2.0)
     ref (2.0.0)
+    responders (2.1.0)
+      railties (>= 4.2.0, < 5)
     rspec-core (3.4.1)
       rspec-support (~> 3.4.0)
     rspec-expectations (3.4.0)
@@ -275,6 +286,8 @@ GEM
       coercible (~> 1.0)
       descendants_tracker (~> 0.0, >= 0.0.3)
       equalizer (~> 0.0, >= 0.0.9)
+    warden (1.2.4)
+      rack (>= 1.0)
     yard (0.8.7.6)
 
 PLATFORMS
@@ -291,6 +304,7 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rbenv
   coffee-rails (~> 4.1.0)
+  devise
   dotenv-rails
   factory_girl_rails
   grape
