@@ -7,7 +7,7 @@ pid "#{ENV.fetch('DEPLOY_TO')}/shared/tmp/pids/unicorn.pid"
 
 working_directory "#{ENV.fetch('DEPLOY_TO')}/current"
 
-before_fork do
+before_fork do |server, worker|
   Signal.trap 'TERM' do
     logger.info('Unicorn master intercepting TERM and sending myself QUIT instead')
     Process.kill 'QUIT', Process.pid
@@ -16,7 +16,7 @@ before_fork do
   defined?(ActiveRecord::Base) && ActiveRecord::Base.connection.disconnect!
 end
 
-after_fork do
+after_fork do |server, worker|
   Signal.trap 'TERM' do
     logger.info('Unicorn worker intercepting TERM and doing nothing. Wait for master to send QUIT')
   end
