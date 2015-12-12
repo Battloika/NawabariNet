@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   has_many :social_profiles, dependent: :destroy
 
   def social_profile(provider)
-    social_profiles.select{ |sp| sp.provider == provider.to_s }.first
+    social_profiles.find { |sp| sp.provider == provider.to_s }
   end
 
   def email_required?

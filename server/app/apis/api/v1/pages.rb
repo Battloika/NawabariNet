@@ -3,8 +3,8 @@ module API
     class Pages < Grape::API
       helpers do
         params :attributes do
-          requires :api_key, type: String, desc: "API key."
-          requires :url, type: ::Utils::Url, desc: "Page url.", documentation: { example: 'http://sample.com' }
+          requires :api_key, type: String, desc: 'API key.'
+          requires :url, type: ::Utils::Url, desc: 'Page url.', documentation: { example: 'http://sample.com' }
         end
       end
 

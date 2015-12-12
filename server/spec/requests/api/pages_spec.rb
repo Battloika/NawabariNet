@@ -1,16 +1,16 @@
-require "rails_helper"
+require 'rails_helper'
 
 describe Api do
   include ApiHelper
 
   describe Page do
-    let (:path) { '/api/v1/pages' }
-    let (:api_key) { ENV.fetch('API_KEY') }
-    let (:url) { 'http://hoge.com/' }
-    let (:rack_env) { { "CONTENT_TYPE" => "application/json" } }
+    let(:path) { '/api/v1/pages' }
+    let(:api_key) { ENV.fetch('API_KEY') }
+    let(:url) { 'http://hoge.com/' }
+    let(:rack_env) { { 'CONTENT_TYPE' => 'application/json' } }
 
     describe 'GET /api/v1/pages' do
-      let (:parameters) do
+      let(:parameters) do
         {
           api_key: api_key,
           url: url
@@ -18,9 +18,9 @@ describe Api do
       end
 
       context 'when api_key is invalid' do
-        let (:api_key) { 'InvalidApiKey' }
+        let(:api_key) { 'InvalidApiKey' }
 
-        let (:result) do
+        let(:result) do
           {
             error: 'Unauthorized (Invalid API key)'
           }
@@ -33,9 +33,9 @@ describe Api do
       end
 
       context 'when url is invalid' do
-        let (:url) { 'InvalidUrl' }
+        let(:url) { 'InvalidUrl' }
 
-        let (:result) do
+        let(:result) do
           {
             error: 'url is invalid'
           }
@@ -48,7 +48,7 @@ describe Api do
       end
 
       context 'success_new_page' do
-        let (:result) do
+        let(:result) do
           {
             page_id: nil,
             url: Page.normalize_url(url),
@@ -63,11 +63,11 @@ describe Api do
       end
 
       context 'success' do
-        let (:domain) { create(:domain) }
-        let (:page) { domain.pages[0] }
-        let (:url) { page.url }
-        let (:total_scores) { page.calc_total_scores }
-        let (:result) do
+        let(:domain) { create(:domain) }
+        let(:page) { domain.pages[0] }
+        let(:url) { page.url }
+        let(:total_scores) { page.calc_total_scores }
+        let(:result) do
           {
             page_id: page.id,
             url: page.url,

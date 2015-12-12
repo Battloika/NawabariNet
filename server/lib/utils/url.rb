@@ -1,5 +1,4 @@
 class Utils::Url
-
   attr_reader :value
 
   def initialize(url)
@@ -8,15 +7,13 @@ class Utils::Url
 
   def self.parse(value)
     unless value.instance_of?(String) &&
-      check_start_http_or_https?(value)
+           check_start_http_or_https?(value)
       fail 'Invalid url'
     end
     new(value)
   end
 
-  private
-
   def self.check_start_http_or_https?(url)
-    url =~ /^https?:\/\/.+$/
+    url =~ %r{^https?://.+$}
   end
 end

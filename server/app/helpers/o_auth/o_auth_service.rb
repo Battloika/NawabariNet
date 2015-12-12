@@ -16,10 +16,7 @@ module OAuthService
       user
     end
 
-    private
-
     class << self
-
       def current_or_profile_user(profile)
         User.current_user.presence || profile.user
       end

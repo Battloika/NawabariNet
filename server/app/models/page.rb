@@ -7,6 +7,6 @@ class Page < ActiveRecord::Base
   end
 
   def calc_total_scores
-    self.paints.inject(0) { |sum, paint| sum + paint.score}
+    paints.inject(0) { |sum, paint| sum + paint.score }
   end
 end

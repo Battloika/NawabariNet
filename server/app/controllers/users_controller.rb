@@ -6,9 +6,7 @@ class UsersController < ApplicationController
   # GET   /users/:id/finish_signup - 必要データの入力を求める
   # PATCH /users/:id/finish_signup - ユーザーデータを更新
   def finish_signup
-    if request.patch? && @user.update(user_params)
-      redirect_to root_url
-    end
+    redirect_to root_url if request.patch? && @user.update(user_params)
   end
 
   private

@@ -1,5 +1,4 @@
 class Utils::Score
-
   attr_reader :value
 
   def initialize(score)
@@ -12,13 +11,11 @@ class Utils::Score
     end
 
     unless value.instance_of?(Fixnum) &&
-      value >= 0
+           value >= 0
       fail 'Invalid score'
     end
     new(value)
   end
-
-  private
 
   def self.check_fixnum_string?(value)
     value =~ /\A\d+\z/
