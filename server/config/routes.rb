@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get '/login', to: 'social_profiles#new'
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
+
   root 'domains#index'
 
   mount API::Base => '/'
