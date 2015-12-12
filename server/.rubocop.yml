@@ -1,0 +1,64 @@
+AllCops:
+  RunRailsCops: true
+  Exclude:
+    - db/schema.rb
+    - 'vendor/**/*'
+    - 'bin/*'
+
+##################### Style ##################################
+
+# 日本語のコメントを許可する
+Style/AsciiComments:
+  Enabled: false
+
+# ドキュメントの無い public class を許可する
+Style/Documentation:
+  Enabled: false
+
+# 桁揃えが綺麗にならないことが多いので migration は除外
+Style/ExtraSpacing:
+  Exclude:
+    - 'db/migrate/*.rb'
+
+# 1_000_000 と区切り文字が 2 個以上必要になる場合のみ _ 区切りを必須にする
+Style/NumericLiterals:
+  MinDigits: 7
+
+# ブロックパラメータは分かりやすい名前をつけたい
+Style/SingleLineBlockParams:
+  Enabled: false
+
+# * migrate
+# * jbuilder
+# * model の association
+# * controller の callback
+# 辺りの桁揃えで引っかかるので全体的にチェックしない
+Style/SingleSpaceBeforeFirstArg:
+  Enabled: false
+
+# モジュール名::クラス名の定義を許可
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+# if 文の中に 3 行程度のブロックは許容
+Style/GuardClause:
+  MinBodyLength: 5
+
+# redirect_to xxx and returnを許可
+Style/AndOr:
+  Exclude:
+    - 'app/controllers/*.rb'
+
+##################### Metrics ##################################
+
+Metrics/LineLength:
+  Max: 150
+
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+Metrics/PerceivedComplexity:
+  Max: 8

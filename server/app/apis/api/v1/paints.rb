@@ -3,17 +3,17 @@ module API
     class Paints < Grape::API
       helpers do
         def create_points(page, score)
-          Paint.create({
+          Paint.create(
             score: score,
             page_id: page.id
-          })
+          )
         end
 
         params :attributes do
-          requires :api_key, type: String, desc: "API key."
-          requires :url, type: ::Utils::Url, desc: "Page url.", documentation: { param_type: 'form', example: 'http://sample.com' }
-          optional :title, type: String, desc: "Page title.", documentation: { example: 'page title' }
-          requires :score, type: ::Utils::Score, desc: "Paint score.", documentation: { param_type: 'form', example: 100 }
+          requires :api_key, type: String, desc: 'API key.'
+          requires :url, type: ::Utils::Url, desc: 'Page url.', documentation: { param_type: 'form', example: 'http://sample.com' }
+          optional :title, type: String, desc: 'Page title.', documentation: { example: 'page title' }
+          requires :score, type: ::Utils::Score, desc: 'Paint score.', documentation: { param_type: 'form', example: 100 }
         end
       end
 
@@ -38,11 +38,11 @@ module API
             paints = create_points(page, params[:score].value)
           else
             domain = Domain.find_or_create_by(domain: normalize_url.host)
-            page = Page.create({
+            page = Page.create(
               url: normalize_url.to_s,
               title: params[:title],
               domain_id: domain.id
-            })
+            )
             paints = create_points(page, params[:score].value)
           end
 

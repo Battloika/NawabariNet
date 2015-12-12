@@ -43,7 +43,7 @@ Rails.application.configure do
   config.after_initialize do
     Bullet.enable = true
     Bullet.alert = true
-    Bullet.bullet_logger = true  # /log/bullet.log
+    Bullet.bullet_logger = true # /log/bullet.log
     Bullet.console = true
     Bullet.add_footer = true
   end

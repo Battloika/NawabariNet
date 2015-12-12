@@ -1,18 +1,18 @@
-require "rails_helper"
+require 'rails_helper'
 
 describe Api do
   include ApiHelper
 
   describe Paint do
-    let (:path) { '/api/v1/paints' }
-    let (:api_key) { ENV.fetch('API_KEY') }
-    let (:url) { 'http://hoge.com/' }
-    let (:title) { 'page title' }
-    let (:score) { 100 }
-    let (:rack_env) { { "CONTENT_TYPE" => "application/json" } }
+    let(:path) { '/api/v1/paints' }
+    let(:api_key) { ENV.fetch('API_KEY') }
+    let(:url) { 'http://hoge.com/' }
+    let(:title) { 'page title' }
+    let(:score) { 100 }
+    let(:rack_env) { { 'CONTENT_TYPE' => 'application/json' } }
 
     describe 'POST /api/v1/paints' do
-      let (:parameters) do
+      let(:parameters) do
         {
           api_key: api_key,
           url: url,
@@ -22,9 +22,9 @@ describe Api do
       end
 
       context 'when api_key is invalid' do
-        let (:api_key) { 'InvalidApiKey' }
+        let(:api_key) { 'InvalidApiKey' }
 
-        let (:result) do
+        let(:result) do
           {
             error: 'Unauthorized (Invalid API key)'
           }
@@ -37,9 +37,9 @@ describe Api do
       end
 
       context 'when url is invalid' do
-        let (:url) { 'InvalidUrl' }
+        let(:url) { 'InvalidUrl' }
 
-        let (:result) do
+        let(:result) do
           {
             error: 'url is invalid'
           }
@@ -52,9 +52,9 @@ describe Api do
       end
 
       context 'when score is invalid' do
-        let (:score) { -1 }
+        let(:score) { -1 }
 
-        let (:result) do
+        let(:result) do
           {
             error: 'score is invalid'
           }
@@ -67,9 +67,9 @@ describe Api do
       end
 
       context 'success when score is string' do
-        let (:score) { '100' }
+        let(:score) { '100' }
 
-        let (:result) do
+        let(:result) do
           {
             page_id: Fixnum,
             url: Page.normalize_url(url).to_s,
@@ -84,7 +84,7 @@ describe Api do
       end
 
       context 'success' do
-        let (:result) do
+        let(:result) do
           {
             page_id: Fixnum,
             url: Page.normalize_url(url).to_s,

@@ -35,11 +35,11 @@ class Capistrano::Git
     include DefaultStrategy
 
     def release
-      git :archive, fetch(:branch), fetch(:project_root), '| tar -x -C', release_path, "--strip=#{fetch(:project_root).count('/')+1}"
+      git :archive, fetch(:branch), fetch(:project_root), '| tar -x -C', release_path, "--strip=#{fetch(:project_root).count('/') + 1}"
     end
   end
 end
 
 # dotenv
-require "dotenv"
+require 'dotenv'
 Dotenv.load('.env')
