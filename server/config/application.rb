@@ -38,5 +38,9 @@ module NawabariNet
 
     # add lib/ directory to path
     config.autoload_paths += %W(#{config.root}/lib)
+
+    # add app/helpers/* to path
+    config.paths.add File.join('app', 'helpers'), glob: File.join('**', '*.rb')
+    config.autoload_paths += Dir[Rails.root.join('app', 'helpers', '*')]
   end
 end
