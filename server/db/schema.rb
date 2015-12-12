@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151210070837) do
+ActiveRecord::Schema.define(version: 20151211223946) do
 
   create_table "domains", force: :cascade do |t|
     t.string "domain", limit: 255, null: false
@@ -36,6 +36,39 @@ ActiveRecord::Schema.define(version: 20151210070837) do
 
   add_index "paints", ["page_id"], name: "index_paints_on_page_id", using: :btree
 
+  create_table "social_profiles", force: :cascade do |t|
+    t.integer  "user_id",     limit: 4
+    t.string   "provider",    limit: 255,   null: false
+    t.string   "uid",         limit: 255,   null: false
+    t.string   "name",        limit: 255
+    t.string   "nickname",    limit: 255
+    t.string   "url",         limit: 255
+    t.string   "image_url",   limit: 255
+    t.string   "description", limit: 255
+    t.text     "other",       limit: 65535
+    t.text     "credentials", limit: 65535
+    t.text     "raw_info",    limit: 65535
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "social_profiles", ["provider", "uid"], name: "index_social_profiles_on_provider_and_uid", unique: true, using: :btree
+  add_index "social_profiles", ["user_id"], name: "index_social_profiles_on_user_id", using: :btree
+
+  create_table "users", force: :cascade do |t|
+    t.string   "email",              limit: 255, default: "", null: false
+    t.string   "encrypted_password", limit: 255, default: "", null: false
+    t.integer  "sign_in_count",      limit: 4,   default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip", limit: 255
+    t.string   "last_sign_in_ip",    limit: 255
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+    t.string   "username",           limit: 255
+  end
+
   add_foreign_key "pages", "domains"
   add_foreign_key "paints", "pages"
+  add_foreign_key "social_profiles", "users"
 end

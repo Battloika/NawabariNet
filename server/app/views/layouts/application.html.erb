@@ -6,6 +6,22 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
+  <p>
+  <% if user_signed_in? %>
+    <%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
+    <% if current_user.social_profiles.select { |sp| sp.provider == 'twitter' }.first %>
+      <%= current_user.social_profile('twitter').name %>
+    <% elsif current_user.social_profiles.select { |sp| sp.provider == 'facebook' }.first %>
+      <%= current_user.social_profile('facebook').name %>
+    <% end %>
+  <% else %>
+    <%= link_to 'ログイン', login_path %>
+    ゲスト
+  <% end %>
+  さん、こんにちは
+  </p>
 
 <%= yield %>
 
