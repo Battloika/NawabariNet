@@ -157,7 +157,7 @@
 	          var parent = target.$dom.parent(".nawabari-target");
 	          target.$dom.css("visibility", "hidden").removeClass("nawabari-target");
 
-	          if (parent && parent.children(".nawabari-target").length == 0) {
+	          if (parent && parent.children(".nawabari-target").length == 0 && parent.width() != 0 && parent.height() != 0) {
 	            targets[i] = {
 	              $dom: parent,
 	              x: parent.offset().left,
