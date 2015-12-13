@@ -92,7 +92,7 @@
 	        "position": "absolute",
 	        "top": $(window).scrollTop() + window.innerHeight + "px",
 	        "left": window.innerWidth / 2 + "px",
-	        "width": size / 5 + "px",
+	        "width": "20px",
 	        "pointer-events": "none",
 	        "z-index": "2147483647"
 	      });
@@ -102,14 +102,15 @@
 	      if (fadeout) $img.animate({
 	        "top": ink_pos_y + size / 2 + "px",
 	        "left": ink_pos_x + size / 2 + "px"
-	      }, 300).animate({
-	        "top": ink_pos_y + "px",
-	        "left": ink_pos_x + "px",
-	        "width": size + "px"
-	      }, 100, function () {
-	        hideHitDom(ink_pos_x + size / 2, ink_pos_y + size / 2, size);
-	      }).delay(100).fadeOut(500, function () {
-	        this.remove();
+	      }, 300, function () {
+	        var hitted = hideHitDom(ink_pos_x + size / 2, ink_pos_y + size / 2, size);
+	        if (hitted) $(this).css({
+	          "top": ink_pos_y + "px",
+	          "left": ink_pos_x + "px",
+	          "width": size + "px"
+	        }).delay(100).fadeOut(500, function () {
+	          this.remove();
+	        });else $(this).remove();
 	      });else $img.animate({
 	        "top": ink_pos_y + size / 2 + "px",
 	        "left": ink_pos_x + size / 2 + "px"
@@ -134,7 +135,7 @@
 	        y: $(this).offset().top,
 	        width: $(this).width(),
 	        height: $(this).height(),
-	        hp: $(this).width() * $(this).height()
+	        hp: Math.sqrt($(this).width() * $(this).height())
 	      });
 	    }
 	  });
@@ -142,11 +143,14 @@
 	  var hideHitDom = function hideHitDom(pos_x, pos_y, range, damage) {
 	    if (!damage) damage = 100;
 
+	    var hitted = false;
+
 	    for (var i = 0; i < targets.length; i++) {
 	      var target = targets[i];
 	      if (target && target.x - range / 2 < pos_x && target.x + target.width + range / 2 > pos_x && target.y - range / 2 < pos_y && target.y + target.height + range / 2 > pos_y) {
 
 	        target.hp -= damage;
+	        hitted = true;
 
 	        if (target.hp < 0) {
 	          var parent = target.$dom.parent(".nawabari-target");
@@ -167,6 +171,8 @@
 	        }
 	      }
 	    };
+
+	    return hitted;
 	  };
 
 	  var image_urls = {
