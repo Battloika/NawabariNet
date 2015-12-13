@@ -15,12 +15,13 @@ $(function(){
     } );
   }
 
-  const paint = ( pos_x, pos_y, num, variance, size, fadeout ) => {
+  const paint = ( pos_x, pos_y, num, variance, size, fadeout, damage ) => {
     if( !pos_x ) pos_x = 100;
     if( !pos_y ) pos_y = 100;
     if( !num ) num = 10;
     if( !variance ) variance = 100;
     if( !size ) size = 100;
+    if( !damage ) damage = 100;
 
     var cursor_size = 32;
 
@@ -37,7 +38,7 @@ $(function(){
         "position": "absolute",
         "top": ( $( window ).scrollTop() + window.innerHeight ) + "px",
         "left": ( window.innerWidth / 2 ) + "px",
-        "width": ( size / 5 ) + "px",
+        "width": "20px",
         "pointer-events": "none",
         "z-index": "2147483647"
       } );
@@ -48,16 +49,20 @@ $(function(){
         $img.animate( {
           "top": ( ink_pos_y + size / 2 ) + "px",
           "left": ( ink_pos_x + size / 2 )  + "px"
-        }, 300 ).animate( {
-          "top": ink_pos_y + "px",
-          "left": ink_pos_x + "px",
-          "width": size + "px",
-        }, 100, () => {
-          hideHitDom( ink_pos_x + size / 2, ink_pos_y + size / 2, size );
-        } ).delay( 100 )
-            .fadeOut( 500, function(){
+        }, 300, function(){
+          var hitted = hideHitDom( ink_pos_x + size / 2, ink_pos_y + size / 2, size, damage );
+          if( hitted )
+            $( this ).css( {
+              "top": ink_pos_y + "px",
+              "left": ink_pos_x + "px",
+              "width": size + "px",
+            } ).delay( 100 )
+              .fadeOut( 500, function(){
               this.remove();
             } );
+          else
+            $( this ).remove();
+        } );
       else
         $img.animate( {
           "top": ( ink_pos_y + size / 2 ) + "px",
@@ -82,12 +87,17 @@ $(function(){
         x: $( this ).offset().left,
         y: $( this ).offset().top,
         width: $( this ).width(),
-        height: $( this ).height()
+        height: $( this ).height(),
+        hp: Math.sqrt( $( this ).width() * $( this ).height() )
       } );
     }
   } );
 
-  const hideHitDom = ( pos_x, pos_y, range ) => {
+  const hideHitDom = ( pos_x, pos_y, range, damage ) => {
+    if( !damage ) damage = 100;
+
+    var hitted = false;
+
     for( var i = 0 ; i < targets.length ; i++ ){
       var target = targets[ i ];
       if( target &&
@@ -96,24 +106,32 @@ $(function(){
           ( target.y - range / 2 < pos_y ) &&
           ( target.y + target.height + range / 2 > pos_y ) ){
 
-        var parent = target.$dom.parent( ".nawabari-target" );
-        target.$dom.css( "visibility", "hidden" )
-          .removeClass( "nawabari-target" );
+        target.hp -= damage;
+        hitted = true;
 
-        if( parent && parent.children( ".nawabari-target" ).length == 0 ){
-          targets[ i ] = {
-            $dom: parent,
-            x: parent.offset().left,
-            y: parent.offset().top,
-            width: parent.width(),
-            height: parent.height()
-          };
-        }else{
-          targets.splice( i, 1 );
-          i--;
+        if( target.hp < 0 ){
+          var parent = target.$dom.parent( ".nawabari-target" );
+          target.$dom.css( "visibility", "hidden" )
+            .removeClass( "nawabari-target" );
+
+          if( parent && parent.children( ".nawabari-target" ).length == 0
+              && parent.width() != 0 && parent.height() != 0 ){
+            targets[ i ] = {
+              $dom: parent,
+              x: parent.offset().left,
+              y: parent.offset().top,
+              width: parent.width(),
+              height: parent.height()
+            };
+          }else{
+            targets.splice( i, 1 );
+            i--;
+          }
         }
       }
     };
+
+    return hitted;
   }
 
   var image_urls = {
@@ -128,19 +146,22 @@ $(function(){
       interval: 100,
       num: 3,
       variance: 100,
-      size: 100
+      size: 100,
+      damage: 50
     },
     garon: {
       interval: 300,
       num: 1,
       variance: 50,
-      size: 200
+      size: 200,
+      damage: 100
     },
     bold: {
       interval: 20,
       num: 6,
-      variance: 300,
-      size: 30
+      variance: 200,
+      size: 50,
+      damage: 10
     }
   }
 
@@ -167,7 +188,8 @@ $(function(){
       weapons_status[ weapon ].num,
       weapons_status[ weapon ].variance,
       weapons_status[ weapon ].size,
-      true
+      true,
+      weapons_status[ weapon ].damage
     );
     in_interval = true;
     clearInterval( drawInterval );
