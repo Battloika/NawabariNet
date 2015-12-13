@@ -133,30 +133,37 @@
 	        x: $(this).offset().left,
 	        y: $(this).offset().top,
 	        width: $(this).width(),
-	        height: $(this).height()
+	        height: $(this).height(),
+	        hp: $(this).width() * $(this).height()
 	      });
 	    }
 	  });
 
-	  var hideHitDom = function hideHitDom(pos_x, pos_y, range) {
+	  var hideHitDom = function hideHitDom(pos_x, pos_y, range, damage) {
+	    if (!damage) damage = 100;
+
 	    for (var i = 0; i < targets.length; i++) {
 	      var target = targets[i];
 	      if (target && target.x - range / 2 < pos_x && target.x + target.width + range / 2 > pos_x && target.y - range / 2 < pos_y && target.y + target.height + range / 2 > pos_y) {
 
-	        var parent = target.$dom.parent(".nawabari-target");
-	        target.$dom.css("visibility", "hidden").removeClass("nawabari-target");
+	        target.hp -= damage;
 
-	        if (parent && parent.children(".nawabari-target").length == 0) {
-	          targets[i] = {
-	            $dom: parent,
-	            x: parent.offset().left,
-	            y: parent.offset().top,
-	            width: parent.width(),
-	            height: parent.height()
-	          };
-	        } else {
-	          targets.splice(i, 1);
-	          i--;
+	        if (target.hp < 0) {
+	          var parent = target.$dom.parent(".nawabari-target");
+	          target.$dom.css("visibility", "hidden").removeClass("nawabari-target");
+
+	          if (parent && parent.children(".nawabari-target").length == 0) {
+	            targets[i] = {
+	              $dom: parent,
+	              x: parent.offset().left,
+	              y: parent.offset().top,
+	              width: parent.width(),
+	              height: parent.height()
+	            };
+	          } else {
+	            targets.splice(i, 1);
+	            i--;
+	          }
 	        }
 	      }
 	    };
