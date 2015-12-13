@@ -70,12 +70,13 @@
 	    });
 	  };
 
-	  var paint = function paint(pos_x, pos_y, num, variance, size, fadeout) {
+	  var paint = function paint(pos_x, pos_y, num, variance, size, fadeout, damage) {
 	    if (!pos_x) pos_x = 100;
 	    if (!pos_y) pos_y = 100;
 	    if (!num) num = 10;
 	    if (!variance) variance = 100;
 	    if (!size) size = 100;
+	    if (!damage) damage = 100;
 
 	    var cursor_size = 32;
 
@@ -103,7 +104,7 @@
 	        "top": ink_pos_y + size / 2 + "px",
 	        "left": ink_pos_x + size / 2 + "px"
 	      }, 300, function () {
-	        var hitted = hideHitDom(ink_pos_x + size / 2, ink_pos_y + size / 2, size);
+	        var hitted = hideHitDom(ink_pos_x + size / 2, ink_pos_y + size / 2, size, damage);
 	        if (hitted) $(this).css({
 	          "top": ink_pos_y + "px",
 	          "left": ink_pos_x + "px",
@@ -187,19 +188,22 @@
 	      interval: 100,
 	      num: 3,
 	      variance: 100,
-	      size: 100
+	      size: 100,
+	      damage: 50
 	    },
 	    garon: {
 	      interval: 300,
 	      num: 1,
 	      variance: 50,
-	      size: 200
+	      size: 200,
+	      damage: 100
 	    },
 	    bold: {
 	      interval: 20,
 	      num: 6,
-	      variance: 300,
-	      size: 30
+	      variance: 200,
+	      size: 50,
+	      damage: 10
 	    }
 	  };
 
@@ -220,7 +224,7 @@
 	    "z-index": "2147483647"
 	  }).on("mousedown", function (event) {
 	    mousedowned = true;
-	    paint(event.pageX, event.pageY, weapons_status[weapon].num, weapons_status[weapon].variance, weapons_status[weapon].size, true);
+	    paint(event.pageX, event.pageY, weapons_status[weapon].num, weapons_status[weapon].variance, weapons_status[weapon].size, true, weapons_status[weapon].damage);
 	    in_interval = true;
 	    clearInterval(drawInterval);
 	    drawInterval = window.setInterval(function () {
