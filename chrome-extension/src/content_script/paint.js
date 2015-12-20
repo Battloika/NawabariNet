@@ -11,7 +11,8 @@ $(function(){
 
     $( "#effect-area" ).css( {
       "height": paint_area_height + "px",
-      "width": paint_area_width + "px"
+      "width": paint_area_width + "px",
+      "background": "none"
     } );
   }
 
