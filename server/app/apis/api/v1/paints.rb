@@ -2,7 +2,7 @@ module API
   module V1
     class Paints < Grape::API
       helpers do
-        def create_points(page, score)
+        def create_paint(page, score)
           Paint.create(
             score: score,
             page_id: page.id
@@ -35,7 +35,7 @@ module API
           page = Page.find_by(url: normalize_url.to_s)
           if page
             page.save
-            paints = create_points(page, params[:score].value)
+            paint = create_paint(page, params[:score].value)
           else
             domain = Domain.find_or_create_by(domain: normalize_url.host)
             page = Page.create(
@@ -43,10 +43,10 @@ module API
               title: params[:title],
               domain_id: domain.id
             )
-            paints = create_points(page, params[:score].value)
+            paint = create_paint(page, params[:score].value)
           end
 
-          present paints, with: Entity::V1::PageAndPaint
+          present paint, with: Entity::V1::PageAndPaint
         end
       end
     end
